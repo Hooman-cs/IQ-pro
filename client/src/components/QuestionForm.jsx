@@ -1,278 +1,277 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
-  fetchQuestions, 
-  createQuestion, 
-  updateQuestion, 
-  deleteQuestion, 
-  resetQuestionSuccess // <-- CORRECTED NAME
+    createQuestion, 
+    updateQuestion, 
+    fetchCategories, // Kept for populating category dropdown
+    resetQuestionSuccess, 
 } from '../slices/questionSlice'; 
-import api from '../utils/api'; // For image upload
+import api from '../utils/api'; 
 
-const QuestionForm = () => {
-  const dispatch = useDispatch();
-  const { 
-    questions, 
-    loading, 
-    error, 
-    success 
-  } = useSelector((state) => state.question);
+// Component now accepts props: 'question' (for editing) and 'onSuccess' (callback)
+const QuestionForm = ({ question, onSuccess }) => {
+    const dispatch = useDispatch();
+    const { 
+        loading, 
+        error, 
+        success,
+        availableCategories,
+        categoryLoading,
+        categoryError
+    } = useSelector((state) => state.question);
 
-  // State for form inputs (for creating/editing a question)
-  const [questionText, setQuestionText] = useState('');
-  const [difficulty, setDifficulty] = useState('easy');
-  const [options, setOptions] = useState(Array(4).fill({ text: '', imageUrl: '' }));
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(0);
-  const [questionImage, setQuestionImage] = useState(''); // URL or path
-  const [uploading, setUploading] = useState(false);
-  const [editingId, setEditingId] = useState(null); // ID of question being edited
-  const [showQuestionForm, setShowQuestionForm] = useState(false);
-  
-  // Fetch questions on load and after success
-  useEffect(() => {
-    dispatch(fetchQuestions());
-    if (success) {
-        // Reset form and success state after operation
-        resetForm();
-        dispatch(resetQuestionSuccess()); // <-- CORRECTED USAGE
-        setEditingId(null);
-    }
-  }, [dispatch, success]);
-  
-  // Handler for uploading image (simplified example)
-  const uploadFileHandler = async (e, isOption = false, optionIndex = null) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append('image', file);
-    setUploading(true);
-
-    try {
-      const { data } = await api.post('/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      if (isOption) {
-        const newOptions = [...options];
-        newOptions[optionIndex] = { ...newOptions[optionIndex], imageUrl: data.imageUrl };
-        setOptions(newOptions);
-      } else {
-        setQuestionImage(data.imageUrl);
-      }
-      setUploading(false);
-    } catch (error) {
-      console.error(error);
-      setUploading(false);
-      alert('Image upload failed.');
-    }
-  };
-
-  const handleOptionChange = (index, field, value) => {
-    const newOptions = [...options];
-    newOptions[index] = { ...newOptions[index], [field]: value };
-    setOptions(newOptions);
-  };
-  
-  const resetForm = () => {
-    setQuestionText('');
-    setDifficulty('easy');
-    setOptions(Array(4).fill({ text: '', imageUrl: '' }));
-    setCorrectAnswerIndex(0);
-    setQuestionImage('');
-    setEditingId(null);
-    setShowQuestionForm(false);
-  };
-
-  const submitHandler = (e) => {
-    e.preventDefault();
+    // --- State Initialization ---
+    // Use the 'question' prop for initial state when editing, otherwise use default/empty values
+    const [questionText, setQuestionText] = useState(question?.text || '');
+    const [category, setCategory] = useState(question?.category || ''); 
+    const [difficulty, setDifficulty] = useState(question?.difficulty || 'easy');
+    const [options, setOptions] = useState(question?.options || Array(4).fill({ text: '', imageUrl: '' }));
+    const [correctAnswerIndex, setCorrectAnswerIndex] = useState(question?.correctAnswerIndex || 0);
+    const [questionImage, setQuestionImage] = useState(question?.imageUrl || ''); 
+    const [uploading, setUploading] = useState(false);
     
-    // Basic validation
-    if (!questionText || options.some(opt => !opt.text && !opt.imageUrl)) {
-        alert('Please fill in question text and all option texts/images.');
-        return;
-    }
+    // Logic for new category input is kept since it's unique to this form
+    const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
+    
+    // --- Effects ---
 
-    const questionData = {
-      text: questionText,
-      difficulty,
-      options,
-      correctAnswerIndex,
-      imageUrl: questionImage,
+    // Fetch categories on load
+    useEffect(() => {
+        dispatch(fetchCategories()); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch]);
+    
+    // Handle successful submission
+    useEffect(() => {
+        if (success) {
+            // Call the parent's success handler (to close form, refresh list, etc.)
+            onSuccess();
+            dispatch(resetQuestionSuccess());
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [success, dispatch]); 
+
+    // --- Handlers ---
+    
+    const uploadFileHandler = async (e, isOption = false, optionIndex = null) => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append('image', file);
+        setUploading(true);
+
+        try {
+            const { data } = await api.post('/upload', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+
+            if (isOption) {
+                const newOptions = [...options];
+                newOptions[optionIndex] = { ...newOptions[optionIndex], imageUrl: data.imageUrl };
+                setOptions(newOptions);
+            } else {
+                setQuestionImage(data.imageUrl);
+            }
+            setUploading(false);
+        } catch (error) {
+            console.error(error);
+            setUploading(false);
+            alert('Image upload failed.');
+        }
     };
 
-    if (editingId) {
-      dispatch(updateQuestion({ id: editingId, questionData }));
-    } else {
-      dispatch(createQuestion(questionData));
-    }
-  };
-  
-  const startEditHandler = (question) => {
-    setEditingId(question._id);
-    setQuestionText(question.text);
-    setDifficulty(question.difficulty);
-    setOptions(question.options);
-    setCorrectAnswerIndex(question.correctAnswerIndex);
-    setQuestionImage(question.imageUrl);
-    setShowQuestionForm(true);
-  };
+    const handleOptionChange = (index, field, value) => {
+        const newOptions = [...options];
+        newOptions[index] = { ...newOptions[index], [field]: value };
+        setOptions(newOptions);
+    };
+    
+    const handleCategoryChange = (e) => {
+        const value = e.target.value;
+        if (value === '__NEW_CATEGORY__') {
+            setCategory(''); // Clear category so user must input
+            setShowNewCategoryInput(true);
+        } else {
+            setCategory(value);
+            setShowNewCategoryInput(false);
+        }
+    };
 
-  const deleteHandler = (id) => {
-    if (window.confirm('Are you sure you want to delete this question?')) {
-      dispatch(deleteQuestion(id));
-    }
-  };
+    const resetForm = () => {
+        setQuestionText(question?.text || '');
+        setDifficulty(question?.difficulty || 'easy');
+        setCategory(question?.category || ''); 
+        setShowNewCategoryInput(false); 
+        setOptions(question?.options || Array(4).fill({ text: '', imageUrl: '' }));
+        setCorrectAnswerIndex(question?.correctAnswerIndex || 0);
+        setQuestionImage(question?.imageUrl || '');
+    };
 
-  const styles = {
-    // ... (Your CSS styles remain the same)
-    container: { padding: '20px', maxWidth: '1000px', margin: '0 auto' },
-    form: { marginBottom: '30px', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' },
-    table: { width: '100%', borderCollapse: 'collapse', marginTop: '20px' },
-    th: { border: '1px solid #ccc', padding: '10px', backgroundColor: '#f4f4f4', textAlign: 'left' },
-    td: { border: '1px solid #ccc', padding: '10px', verticalAlign: 'middle' },
-    input: { width: '100%', padding: '8px', boxSizing: 'border-box' },
-    buttonGroup: { marginTop: '15px', display: 'flex', gap: '10px' }
-  };
-  
-  // NOTE: You'll need to define all the CSS variables inside the styles object or use a CSS file
-  const buttonStyle = (bg) => ({ padding: '8px 15px', border: 'none', borderRadius: '4px', cursor: 'pointer', color: 'white', backgroundColor: bg });
+    const submitHandler = (e) => {
+        e.preventDefault();
+        
+        // **CRITICAL FIX: Explicitly check for category being empty before submission**
+        if (showNewCategoryInput && !category.trim()) {
+            alert('Please enter a name for the new category.');
+            return;
+        }
 
+        if (!questionText || !category.trim() || options.some(opt => !opt.text && !opt.imageUrl)) {
+            alert('Please fill in question text, category, and all option texts/images.');
+            return;
+        }
 
-  return (
-    <div style={styles.container}>
-      {/* -------------------- FORM TOGGLE -------------------- */}
-      <button 
-        onClick={() => {
-            if (showQuestionForm && editingId) {
-                resetForm(); // Cancel edit mode
-            }
-            setShowQuestionForm(!showQuestionForm);
-        }}
-        style={buttonStyle(showQuestionForm ? '#cc0000' : '#007bff')}
-      >
-        {showQuestionForm ? (editingId ? 'Cancel Edit' : 'Close Form') : 'Add New Question'}
-      </button>
+        const questionData = {
+            text: questionText,
+            category: category.trim(), // Ensure no leading/trailing whitespace
+            difficulty,
+            options,
+            correctAnswerIndex,
+            imageUrl: questionImage,
+        };
 
-      {/* -------------------- QUESTION FORM -------------------- */}
-      {showQuestionForm && (
+        if (question?._id) {
+            // Update mode: use the ID from the prop
+            dispatch(updateQuestion({ id: question._id, questionData }));
+        } else {
+            // Create mode
+            dispatch(createQuestion(questionData));
+        }
+    };
+    
+    // --- Styles (simplified) ---
+    const styles = {
+        form: { marginBottom: '30px', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' },
+        input: { width: '100%', padding: '8px', boxSizing: 'border-box' },
+        buttonGroup: { marginTop: '15px', display: 'flex', gap: '10px' }
+    };
+    const buttonStyle = (bg) => ({ padding: '8px 15px', border: 'none', borderRadius: '4px', cursor: 'pointer', color: 'white', backgroundColor: bg });
+
+    return (
         <form onSubmit={submitHandler} style={styles.form}>
-          <h3>{editingId ? 'Edit Question' : 'Create New Question'}</h3>
-          {loading && <p>Loading...</p>}
-          {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+            <h3>{question ? 'Edit Question' : 'Create New Question'}</h3>
+            {loading && <p>Loading...</p>}
+            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
 
-          {/* Question Text */}
-          <div style={{ marginBottom: '15px' }}>
-            <label>Question Text:</label>
-            <textarea
-              rows="3"
-              value={questionText}
-              onChange={(e) => setQuestionText(e.target.value)}
-              style={styles.input}
-              required
-            />
-          </div>
-
-          {/* Question Image Upload */}
-          <div style={{ marginBottom: '15px' }}>
-            <label>Question Image:</label>
-            <input type='file' onChange={(e) => uploadFileHandler(e)} />
-            {uploading && <p>Uploading...</p>}
-            {questionImage && <img src={questionImage} alt="Question" style={{ maxWidth: '150px', marginTop: '10px' }} />}
-          </div>
-
-          {/* Difficulty */}
-          <div style={{ marginBottom: '15px' }}>
-            <label>Difficulty:</label>
-            <select
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value)}
-              style={styles.input}
-            >
-              <option value='easy'>Easy (1 pt)</option>
-              <option value='medium'>Medium (3 pts)</option>
-              <option value='hard'>Hard (6 pts)</option>
-            </select>
-          </div>
-
-          {/* Options Input */}
-          <div style={{ marginBottom: '15px' }}>
-            <h4>Options (Max 4)</h4>
-            {options.map((option, index) => (
-              <div key={index} style={{ border: `1px solid ${correctAnswerIndex === index ? 'green' : '#eee'}`, padding: '10px', marginBottom: '10px' }}>
-                <label style={{ fontWeight: 'bold' }}>Option {index + 1}:</label>
-                <input
-                  type='text'
-                  value={option.text}
-                  onChange={(e) => handleOptionChange(index, 'text', e.target.value)}
-                  placeholder={`Option ${index + 1} Text`}
-                  style={styles.input}
+            {/* Question Text */}
+            <div style={{ marginBottom: '15px' }}>
+                <label>Question Text:</label>
+                <textarea
+                    rows="3"
+                    value={questionText}
+                    onChange={(e) => setQuestionText(e.target.value)}
+                    style={styles.input}
+                    required
                 />
-                
-                {/* Option Image Upload */}
-                <input 
-                    type='file' 
-                    onChange={(e) => uploadFileHandler(e, true, index)} 
-                    style={{ marginTop: '5px' }} 
-                />
-                {option.imageUrl && <img src={option.imageUrl} alt={`Option ${index+1}`} style={{ maxWidth: '80px', marginTop: '5px' }} />}
+            </div>
+            
+            {/* QUESTION IMAGE UPLOAD */}
+            <div style={{ marginBottom: '15px' }}>
+                <label>Question Image:</label>
+                <input type='file' onChange={(e) => uploadFileHandler(e)} />
+                {uploading && <p>Uploading...</p>}
+                {questionImage && <img src={questionImage} alt="Question" style={{ maxWidth: '150px', marginTop: '10px' }} />}
+            </div>
 
-                {/* Correct Answer Radio */}
-                <label style={{ marginLeft: '20px' }}>
-                  <input
-                    type='radio'
-                    name='correctAnswer'
-                    checked={correctAnswerIndex === index}
-                    onChange={() => setCorrectAnswerIndex(index)}
-                  />
-                  Correct Answer
-                </label>
-              </div>
-            ))}
-          </div>
+            {/* CATEGORY INPUT LOGIC (Dropdown or Textbox) */}
+            <div style={{ marginBottom: '15px' }}>
+                <label>Category:</label>
+                {categoryLoading ? (
+                    <p>Loading categories...</p>
+                ) : categoryError ? (
+                    <p style={{ color: 'red' }}>Error loading categories: {categoryError}</p>
+                ) : (
+                    <select
+                        value={showNewCategoryInput ? '__NEW_CATEGORY__' : category}
+                        onChange={handleCategoryChange}
+                        style={styles.input}
+                        required={!showNewCategoryInput}
+                    >
+                        {/* Changed initial empty option to a disabled placeholder */}
+                        <option value='' disabled>Select a Category</option> 
+                        {availableCategories.map((cat) => (
+                            <option key={cat} value={cat}>
+                                {cat}
+                            </option>
+                        ))}
+                        <option value='__NEW_CATEGORY__'>-- Add New Category --</option>
+                    </select>
+                )}
+            </div>
 
-          <div style={styles.buttonGroup}>
-            <button type='submit' style={buttonStyle('#28a745')} disabled={loading || uploading}>
-              {editingId ? 'Update Question' : 'Create Question'}
-            </button>
-            <button type='button' onClick={resetForm} style={buttonStyle('#6c757d')}>
-              Reset
-            </button>
-          </div>
+            {showNewCategoryInput && (
+                <div style={{ marginBottom: '15px', marginTop: '10px' }}>
+                    <label>New Category Name:</label>
+                    <input
+                        type='text'
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        style={styles.input}
+                        placeholder="Enter New Category Name"
+                        required
+                    />
+                </div>
+            )}
+
+            {/* Difficulty */}
+            <div style={{ marginBottom: '15px' }}>
+                <label>Difficulty:</label>
+                <select
+                    value={difficulty}
+                    onChange={(e) => setDifficulty(e.target.value)}
+                    style={styles.input}
+                >
+                    <option value='easy'>Easy (1 pt)</option>
+                    <option value='medium'>Medium (3 pts)</option>
+                    <option value='hard'>Hard (6 pts)</option>
+                </select>
+            </div>
+
+            {/* Options Input */}
+            <div style={{ marginBottom: '15px' }}>
+                <h4>Options (Max 4)</h4>
+                {options.map((option, index) => (
+                    <div key={index} style={{ border: `1px solid ${correctAnswerIndex === index ? 'green' : '#eee'}`, padding: '10px', marginBottom: '10px' }}>
+                        <label style={{ fontWeight: 'bold' }}>Option {index + 1}:</label>
+                        <input
+                            type='text'
+                            value={option.text}
+                            onChange={(e) => handleOptionChange(index, 'text', e.target.value)}
+                            placeholder={`Option ${index + 1} Text`}
+                            style={styles.input}
+                        />
+                        
+                        {/* Option Image Upload */}
+                        <input 
+                            type='file' 
+                            onChange={(e) => uploadFileHandler(e, true, index)} 
+                            style={{ marginTop: '5px' }} 
+                        />
+                        {option.imageUrl && <img src={option.imageUrl} alt={`Option ${index+1}`} style={{ maxWidth: '80px', marginTop: '5px' }} />}
+
+                        {/* Correct Answer Radio */}
+                        <label style={{ marginLeft: '20px' }}>
+                            <input
+                                type='radio'
+                                name='correctAnswer'
+                                checked={correctAnswerIndex === index}
+                                onChange={() => setCorrectAnswerIndex(index)}
+                            />
+                            Correct Answer
+                        </label>
+                    </div>
+                ))}
+            </div>
+
+            <div style={styles.buttonGroup}>
+                <button type='submit' style={buttonStyle('#28a745')} disabled={loading || uploading || categoryLoading}>
+                    {question ? 'Update Question' : 'Create Question'}
+                </button>
+                <button type='button' onClick={resetForm} style={buttonStyle('#6c757d')}>
+                    Reset
+                </button>
+            </div>
         </form>
-      )}
-
-      {/* -------------------- QUESTION LIST -------------------- */}
-      <h3>Existing Questions ({questions.length})</h3>
-      {loading ? <p>Loading questions...</p> : error ? <p style={{ color: 'red' }}>{error}</p> : (
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th style={styles.th}>ID</th>
-              <th style={styles.th}>Text</th>
-              <th style={styles.th}>Diff.</th>
-              <th style={styles.th}>Correct Ans</th>
-              <th style={styles.th}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {questions.map((question) => (
-              <tr key={question._id}>
-                <td style={styles.td}>{question._id.substring(18)}...</td>
-                <td style={styles.td}>{question.text.substring(0, 50)}...</td>
-                <td style={styles.td}>{question.difficulty}</td>
-                <td style={styles.td}>{question.correctAnswerIndex + 1}</td>
-                <td style={styles.td}>
-                  <button onClick={() => startEditHandler(question)} style={buttonStyle('blue')}>Edit</button>
-                  <button onClick={() => deleteHandler(question._id)} style={buttonStyle('red')}>Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
+    );
 };
 
 export default QuestionForm;
