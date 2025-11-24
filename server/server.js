@@ -9,6 +9,7 @@ import configRoutes from './routes/configRoutes.js';
 import resultRoutes from './routes/resultRoutes.js';
 import certificateRoutes from './routes/certificateRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -36,6 +37,7 @@ app.use('/api/config', configRoutes);
 app.use('/api/results', resultRoutes);
 app.use('/api/certificates', certificateRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/contact', contactRoutes);
 
 // --- ERROR HANDLING MIDDLEWARE ---
 // A basic handler for not-found routes
