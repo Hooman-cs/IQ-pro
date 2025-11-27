@@ -2,456 +2,174 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-// Assuming these paths based on previous steps and your file uploads
 import backgroundHeroImage from '../assets/images/background_1.png'; 
-import backgroundStatsImage from '../assets/images/background_2.png'; // <-- NEW BACKGROUND IMAGE
+import backgroundStatsImage from '../assets/images/background_2.png'; 
+import bellCurveImage from '../assets/images/bellcurve.png'; 
+import maleFemaleBellCurveImage from '../assets/images/male_female_bellcurve.png'; // <-- NEW IMAGE IMPORT
 
 const HomeScreen = () => {
- const styles = {
-  // --- HERO SECTION STYLES (background_1.jpg) ---
-  container: {
-   minHeight: '85vh',
-   display: 'flex',
-   flexDirection: 'column',
-   justifyContent: 'center',
-   alignItems: 'center',
-   textAlign: 'center',
-   backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundHeroImage})`,
-   backgroundSize: 'cover',
-   backgroundPosition: 'center',
-   color: 'white',
-   overflow: 'hidden',
-  },
-  contentWrapper: {
-   maxWidth: '1000px',
-   padding: '60px 20px',
-   margin: '0 auto',
-   zIndex: 1,
-  },
-  h1: {
-   fontSize: '3.8em',
-   color: '#007bff',
-   marginBottom: '20px',
-   fontWeight: 800,
-   textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-  },
-  subHeadline: {
-   fontSize: '1.4em',
-   color: '#e0e0e0',
-   marginBottom: '40px',
-   maxWidth: '700px',
-   margin: '0 auto 40px auto',
-   textShadow: '1px 1px 3px rgba(0,0,0,0.5)',
-  },
-  ctaContainer: {
-   display: 'flex',
-   justifyContent: 'center',
-   gap: '20px',
-   marginBottom: '60px',
-   flexWrap: 'wrap',
-  },
-  primaryCta: {
-   display: 'inline-block',
-   padding: '15px 35px',
-   fontSize: '1.3em',
-   backgroundColor: '#28a745',
-   color: 'white',
-   textDecoration: 'none',
-   borderRadius: '8px',
-   fontWeight: 600,
-  },
-  secondaryCta: {
-   display: 'inline-block',
-   padding: '15px 35px',
-   fontSize: '1.3em',
-   backgroundColor: 'transparent',
-   color: '#007bff',
-   textDecoration: 'none',
-   borderRadius: '8px',
-   border: '2px solid #007bff',
-  },
-  // --- INTRODUCTION SECTION STYLES ---
-  introSection: {
-   backgroundColor: '#ffffff',
-   padding: '60px 20px',
-   width: '100%',
-   textAlign: 'center',
-   color: '#333',
-   maxWidth: '1000px',
-   margin: '0 auto',
-  },
-  // --- STATISTICS SECTION STYLES (background_2.jpg) ---
-  statsSection: {
-   backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url(${backgroundStatsImage})`,
-   backgroundSize: 'cover',
-   backgroundPosition: 'center',
-   padding: '80px 20px',
-   width: '100%',
-   textAlign: 'center',
-   color: 'white', // White text for dark background
-  },
-  statsGrid: {
-   display: 'grid',
-   gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-   gap: '40px',
-   maxWidth: '1100px',
-   margin: '40px auto 0 auto',
-  },
-  statItem: {
-   backgroundColor: 'rgba(0, 0, 0, 0.4)', // Slightly transparent black box
-   border: '1px solid #007bff',
-   padding: '30px',
-   borderRadius: '10px',
-   boxShadow: '0 6px 18px rgba(0, 0, 0, 0.5)',
-  },
-  statNumber: {
-   fontSize: '3em',
-   fontWeight: 700,
-   color: '#28a745', // Highlight color
-   marginBottom: '10px',
-  },
-  statText: {
-   fontSize: '1.2em',
-   color: '#e0e0e0',
-   textShadow: '1px 1px 2px #000',
-  },
-  // --- DETAILED STATS/GRAPH SECTION ---
-  detailedStatsSection: {
-   padding: '60px 20px',
-   maxWidth: '1000px',
-   margin: '0 auto',
-   textAlign: 'center',
-  },
-  graphContainer: {
-   display: 'flex',
-   justifyContent: 'space-around',
-   alignItems: 'flex-start',
-   gap: '30px',
-   marginTop: '40px',
-   flexWrap: 'wrap',
-  },
-  statBlock: {
-   flex: 1,
-   minWidth: '300px',
-   padding: '20px',
-   backgroundColor: '#f9f9f9',
-   borderRadius: '8px',
-   textAlign: 'left',
-   borderTop: '4px solid #ffc107',
-  },
-  statDetail: {
-   marginBottom: '10px',
-   padding: '8px 0',
-   borderBottom: '1px dotted #ccc',
-  },
-  // --- KEY HIGHLIGHTS SECTION STYLES ---
-  highlightsSection: {
-   backgroundColor: '#f8f8f8',
-   padding: '60px 20px',
-   width: '100%',
-   textAlign: 'center',
-   color: '#333',
-  },
-  highlightsGrid: {
-   display: 'grid',
-   gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-   gap: '30px',
-   maxWidth: '1000px',
-   margin: '40px auto 0 auto',
-  },
-  highlightItem: {
-   backgroundColor: '#fff',
-   padding: '25px',
-   borderRadius: '10px',
-   boxShadow: '0 4px 15px rgba(0, 0, 0, 0.07)',
-   borderLeft: '5px solid #28a745',
-   textAlign: 'left',
-  },
-  highlightTitle: {
-   fontWeight: 700,
-   color: '#28a745',
-   marginBottom: '10px',
-   fontSize: '1.3em',
-  },
-  highlightDescription: {
-   fontSize: '1em',
-   color: '#666',
-  },
- };
 
- const highlights = [
-  { title: 'Comprehensive Evaluation', description: 'Covers logical reasoning, pattern recognition, problem-solving agility, memory processing, and verbal understanding.' },
-  { title: 'Adaptive Difficulty', description: 'Intelligent scoring models measure your performance relative to question complexity for a precise result.' },
-  { title: 'Instant Reports', description: 'Clear, insightful results with breakdowns that help you understand your strengths and growth areas.' },
-  { title: 'User-Friendly Design', description: 'Clean layouts, intuitive navigation, and guidance at every step of the assessment.' },
- ];
+const highLevelStatistics = [
+ { number: '100K+', text: 'Tests Completed Annually' },
+ { number: '98%', text: 'User Satisfaction Rate' },
+ { number: '20+', text: 'Years of Cognitive Research' },
+];
 
- // Simulated High-Level Statistics (used in statsSection)
- const highLevelStatistics = [
-  { number: '100K+', text: 'Tests Completed Annually' },
-  { number: '98%', text: 'User Satisfaction Rate' },
-  { number: '20+', text: 'Years of Cognitive Research' },
- ];
+const highlights = [
+ { title: 'Comprehensive Evaluation', description: 'Covers logical reasoning, pattern recognition, problem-solving agility, memory processing, and verbal understanding.' },
+ { title: 'Adaptive Difficulty', description: 'Intelligent scoring models measure your performance relative to question complexity for a precise result.' },
+ { title: 'Instant Reports', description: 'Clear, insightful results with breakdowns that help you understand your strengths and growth areas.' },
+ { title: 'User-Friendly Design', description: 'Clean layouts, intuitive navigation, and guidance at every step of the assessment.' },
+];
 
- // Detailed Statistics (used in detailedStatsSection)
- const detailedStats = {
-  global: [
-   { label: 'Global Average IQ', value: '100' },
-   { label: 'Top Scoring Countries (Avg)', value: '102 - 108' },
-   { label: 'Common Range (68% of Population)', value: '85 - 115' },
-  ],
-  demographics: [
-   { label: 'Average Score (Male)', value: '100.5' },
-   { label: 'Average Score (Female)', value: '99.5' },
-   { label: 'Peak Cognitive Age', value: '25 - 35 years' },
-  ]
- };
+return (
+ <>
+ {/* 1. Hero Section with Background Image 1 */}
+ <div 
+  className="min-h-[85vh] flex flex-col justify-center items-center text-center text-white bg-cover bg-center overflow-hidden"
+  style={{ 
+  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundHeroImage})` 
+  }}
+ >
+  <div className="max-w-4xl p-8 z-10">
+  <h1 className="text-5xl md:text-6xl text-blue-400 mb-5 font-extrabold tracking-tight [text-shadow:2px_2px_4px_rgba(0,0,0,0.5)]">
+   Measure Your Cognitive Strength With Precision
+  </h1>
+  <p className="text-xl md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
+   Our advanced IQ testing platform delivers accurate, research-based insights into your reasoning, memory, analytical thinking, and problem-solving abilities.
+  </p>
+  
+  <div className="flex justify-center gap-6 flex-wrap">
+   <Link to='/quiz' className="px-8 py-4 text-xl bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 transform hover:scale-105 shadow-lg">
+   Start Your IQ Test →
+   </Link>
+   <Link to='/about' className="px-8 py-4 text-xl bg-transparent text-blue-400 font-semibold rounded-lg border-2 border-blue-400 hover:bg-blue-400 hover:text-white transition duration-300 transform hover:scale-105">
+   Explore How It Works →
+   </Link>
+  </div>
+  </div>
+ </div>
 
- return (
-  <>
-   {/* 1. Hero Section with Background Image 1 */}
-   <div style={styles.container}>
-    <div style={styles.contentWrapper}>
-     <h1 style={styles.h1}>Measure Your Cognitive Strength With Precision</h1>
-     <p style={styles.subHeadline}>
-      Our advanced IQ testing platform delivers accurate, research-based insights into your reasoning, memory, analytical thinking, and problem-solving abilities.
-     </p>
-     
-     <div style={styles.ctaContainer}>
-      <Link to='/quiz' style={styles.primaryCta}>
-       Start Your IQ Test →
-      </Link>
-      <Link to='/about' style={styles.secondaryCta}>
-       Explore How It Works →
-      </Link>
-    </div>
-    </div>
+ {/* 2. Introduction Section */}
+ <div className="bg-white py-16 px-4 text-center text-gray-800">
+  <div className="max-w-4xl mx-auto">
+  <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-700">Unlock Your Cognitive Potential</h2>
+  <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+   Understanding your cognitive abilities shouldn’t require complicated forms, outdated test formats, or vague results. Our platform provides a **modern, reliable, and user-centered approach** to IQ evaluation. Each assessment is built with scientific rigor, ensuring an experience that is both scientifically meaningful and easy to navigate.
+  </p>
+  </div>
+ </div>
+
+ {/* 3. High-Level Statistics Section with Background Image 2 */}
+ <div 
+  className="py-20 px-4 text-center text-white bg-cover bg-center"
+  style={{ 
+  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url(${backgroundStatsImage})` 
+  }}
+ >
+  <h2 className="text-4xl font-bold mb-4 text-blue-400 [text-shadow:2px_2px_4px_#000]">Platform Impact & Trust</h2>
+  <p className="text-lg max-w-2xl mx-auto mb-10 text-gray-300">
+  Join thousands of users who trust our platform for accurate, insightful, and accessible cognitive assessments.
+  </p>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+  {highLevelStatistics.map((stat, index) => (
+   <div 
+   key={index} 
+   className="bg-black/40 border border-blue-500/50 p-8 rounded-xl shadow-2xl transition duration-300 hover:scale-[1.02]"
+   >
+   <div className="text-5xl font-extrabold text-green-400 mb-2">{stat.number}</div>
+   <div className="text-xl font-semibold text-gray-200">{stat.text}</div>
    </div>
-
-   {/* 2. Introduction Section */}
-   <div style={styles.introSection}>
-    <h2 style={{ fontSize: '2em', color: '#333', marginBottom: '20px' }}>Unlock Your Cognitive Potential</h2>
-    <p style={{ fontSize: '1.1em', maxWidth: '800px', margin: '0 auto 40px auto', color: '#666' }}>
-     Understanding your cognitive abilities shouldn’t require complicated forms, outdated test formats, or vague results. Our platform provides a **modern, reliable, and user-centered approach** to IQ evaluation. Each assessment is built with scientific rigor, ensuring an experience that is both scientifically meaningful and easy to navigate.
-    </p>
-   </div>
-
-   {/* 3. High-Level Statistics Section with Background Image 2 */}
-   <div style={styles.statsSection}>
-    <h2 style={{ fontSize: '2.5em', color: '#007bff', marginBottom: '20px', textShadow: '2px 2px 4px #000' }}>Platform Impact & Trust</h2>
-    <p style={{ fontSize: '1.1em', maxWidth: '800px', margin: '0 auto 40px auto', color: '#e0e0e0', textShadow: '1px 1px 2px #000' }}>
-     Join thousands of users who trust our platform for accurate, insightful, and accessible cognitive assessments.
-    </p>
-    <div style={styles.statsGrid}>
-     {highLevelStatistics.map((stat, index) => (
-      <div key={index} style={styles.statItem}>
-       <div style={styles.statNumber}>{stat.number}</div>
-       <div style={styles.statText}>{stat.text}</div>
-      </div>
-     ))}
-    </div>
-   </div>
-        
-   {/* 4. Detailed Statistics & Visualization Section */}
-   <div style={styles.detailedStatsSection}>
-    <h2 style={{ fontSize: '2.5em', color: '#343a40', marginBottom: '20px' }}>IQ Score Benchmarks & Insights</h2>
-    <p style={{ fontSize: '1.1em', maxWidth: '800px', margin: '0 auto 40px auto', color: '#666' }}>
-     Contextualize your potential results using established global and demographic averages.
-    </p>
+  ))}
+  </div>
+ </div>
     
-    <div style={styles.graphContainer}>
-     {/* Detailed Statistics Block: Global & Demographics */}
-     <div style={styles.statBlock}>
-      <h3 style={{ color: '#007bff', marginBottom: '15px' }}>Global & Demographic Averages</h3>
-      {detailedStats.global.map((item, index) => (
-       <div key={'g'+index} style={styles.statDetail}>
-        **{item.label}:** <span style={{ float: 'right', fontWeight: 'bold', color: '#28a745' }}>{item.value}</span>
-       </div>
-      ))}
-      {detailedStats.demographics.map((item, index) => (
-       <div key={'d'+index} style={styles.statDetail}>
-        **{item.label}:** <span style={{ float: 'right', fontWeight: 'bold', color: '#28a745' }}>{item.value}</span>
-       </div>
-      ))}
-     </div>
-
-     {/* Graph/Image Visualization Placeholder */}
-     <div style={{ flex: 1, minWidth: '350px' }}>
-      <h3 style={{ color: '#007bff', marginBottom: '15px' }}>Score Distribution Visual</h3>
-                
-     </div>
-    </div>
+ {/* 4. IQ Score Benchmarks & Insights Section */}
+ <div className="bg-gray-50 py-16 px-4">
+  <div className="max-w-6xl mx-auto text-center">
+  <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-700">IQ Score Benchmarks & Insights</h2>
+  <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-12">
+   Contextualize your potential results using established global and demographic averages.
+  </p>
+  
+  <div className="flex flex-col lg:flex-row justify-between items-start gap-10">
+   {/* Left Column: Overall Bell Curve with explanation */}
+   <div className="flex-1 w-full bg-white p-6 rounded-xl shadow-lg border-t-4 border-yellow-500">
+   <h3 className="text-2xl font-semibold text-blue-600 mb-4 pb-2 border-b">Global IQ Distribution</h3>
+   <img 
+    src={bellCurveImage} 
+    alt="IQ Score Bell Curve Distribution" 
+    className="w-full h-auto rounded-lg shadow-md mb-4" 
+   />
+   <p className="text-gray-700 text-sm leading-relaxed">
+    This curve illustrates how IQ scores are distributed across a population, with the average IQ at 100. The majority (about 68%) fall between 85-115, indicating typical cognitive abilities. Scores deviate from the average as less common, representing exceptionally high or low intelligence.
+   </p>
    </div>
 
-   {/* 5. Key Highlights Section */}
-   <div style={styles.highlightsSection}>
-    <h2 style={{ fontSize: '2.5em', color: '#343a40', marginBottom: '30px' }}>Key Highlights</h2>
-    <div style={styles.highlightsGrid}>
-     {highlights.map((item, index) => (
-      <div key={index} style={styles.highlightItem}>
-       <h3 style={styles.highlightTitle}>{item.title}</h3>
-       <p style={styles.highlightDescription}>{item.description}</p>
-      </div>
-     ))}
-    </div>
+   {/* Right Column: Male vs. Female Bell Curve with explanation */}
+   <div className="flex-1 w-full bg-white p-6 rounded-xl shadow-lg border-t-4 border-blue-600">
+   <h3 className="text-2xl font-semibold text-blue-600 mb-4 pb-2 border-b">IQ by Gender: Distribution Spread</h3>
+   <img 
+    src={maleFemaleBellCurveImage} 
+    alt="IQ Scores: Men & Women Are Equally Smart" 
+    className="w-full h-auto rounded-lg shadow-md mb-4" 
+   />
+   <p className="text-gray-700 text-sm leading-relaxed">
+    While the average IQ score remains consistent (around 100) for both men and women, studies often show a difference in the **spread** of scores. Men tend to have a wider distribution, meaning there are proportionally more men at both the very high and very low ends of the IQ spectrum, while women's scores cluster more closely around the average.
+   </p>
    </div>
-  </>
- );
+  </div>
+  </div>
+ </div>
+
+ {/* 5. Key Highlights Section */}
+ <div className="bg-white py-16 px-4">
+  <div className="max-w-5xl mx-auto text-center">
+  <h2 className="text-3xl md:text-4xl font-bold mb-10 text-gray-700">Key Highlights</h2>
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+   {highlights.map((item, index) => (
+   <div key={index} className="bg-gray-50 p-6 rounded-xl shadow-md border-l-4 border-green-500 text-left transition duration-300 hover:shadow-xl hover:-translate-y-1">
+    {/* Placeholder for Icon */}
+    <div className="text-3xl mb-3 text-green-600">🧠</div>
+    <h3 className="text-xl font-bold text-gray-800 mb-2">{item.title}</h3>
+    <p className="text-gray-600 text-sm">{item.description}</p>
+   </div>
+   ))}
+  </div>
+  </div>
+ </div>
+ </>
+);
 };
 
 export default HomeScreen;
 
+// // client/src/pages/HomeScreen.jsx
+
 // import React from 'react';
 // import { Link } from 'react-router-dom';
-// import backgroundImage from '../assets/images/cognitive_strength_bg.png'; // <-- IMPORT THE IMAGE
+// import backgroundHeroImage from '../assets/images/background_1.png'; 
+// import backgroundStatsImage from '../assets/images/background_2.png'; 
 
 // const HomeScreen = () => {
-//  const styles = {
-//   container: {
-//    // Remove fixed padding and max-width for the hero section
-//    // The hero will now take full width and height
-//    minHeight: '85vh', // Ensure it covers enough viewport height
-//    display: 'flex',
-//    flexDirection: 'column',
-//    justifyContent: 'center',
-//    alignItems: 'center',
-//    textAlign: 'center',
-   
-//    // Background styles
-//    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundImage})`, // Dark overlay + image
-//    backgroundSize: 'cover',
-//    backgroundPosition: 'center',
-//    color: 'white', // Ensure text is readable against dark background
-//    position: 'relative', // Needed for potential overlays/absolute positioning
-//    overflow: 'hidden', // Hide any overflow from image
-//   },
-//   contentWrapper: { // A new div to hold content within the background, for proper centering and max-width
-//    maxWidth: '1000px',
-//    padding: '60px 20px',
-//    margin: '0 auto',
-//    zIndex: 1, // Ensure content is above any potential pseudo-element overlays
-//   },
-//   h1: {
-//    fontSize: '3.8em', // Slightly larger for impact
-//    color: '#007bff', // Keep brand color
-//    marginBottom: '20px',
-//    fontWeight: 800,
-//    textShadow: '2px 2px 4px rgba(0,0,0,0.5)', // Add text shadow for readability
-//   },
-//   subHeadline: {
-//    fontSize: '1.4em', // Slightly larger
-//    color: '#e0e0e0', // Lighter color for readability
-//    marginBottom: '40px',
-//    maxWidth: '700px',
-//    margin: '0 auto 40px auto',
-//    textShadow: '1px 1px 3px rgba(0,0,0,0.5)',
-//   },
-//   ctaContainer: {
-//    display: 'flex',
-//    justifyContent: 'center',
-//    gap: '20px',
-//    marginBottom: '60px',
-//    flexWrap: 'wrap', // Allow CTAs to wrap on smaller screens
-//   },
-//   primaryCta: {
-//    display: 'inline-block',
-//    padding: '15px 35px', // Slightly more padding
-//    fontSize: '1.3em', // Slightly larger font
-//    backgroundColor: '#28a745',
-//    color: 'white',
-//    textDecoration: 'none',
-//    borderRadius: '8px',
-//    transition: 'background-color 0.3s, transform 0.2s',
-//    fontWeight: 600,
-//    ':hover': { // Hover effect
-//     backgroundColor: '#218838',
-//     transform: 'translateY(-2px)',
-//    },
-//   },
-//   secondaryCta: {
-//    display: 'inline-block',
-//    padding: '15px 35px',
-//    fontSize: '1.3em',
-//    backgroundColor: 'transparent', // Transparent background
-//    color: '#007bff', // Brand color for text
-//    textDecoration: 'none',
-//    borderRadius: '8px',
-//    border: '2px solid #007bff', // Border with brand color
-//    transition: 'background-color 0.3s, color 0.3s, transform 0.2s',
-//    ':hover': { // Hover effect
-//     backgroundColor: '#007bff',
-//     color: 'white',
-//     transform: 'translateY(-2px)',
-//    },
-//   },
-//   // New styles for the statistics section
-//   statsSection: {
-//    backgroundColor: '#f0f4f8', // Light background for contrast
-//    padding: '60px 20px',
-//    width: '100%',
-//    textAlign: 'center',
-//    color: '#333',
-//   },
-//   statsGrid: {
-//    display: 'grid',
-//    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-//    gap: '30px',
-//    maxWidth: '1000px',
-//    margin: '40px auto 0 auto',
-//   },
-//   statItem: {
-//    backgroundColor: '#fff',
-//    padding: '30px',
-//    borderRadius: '10px',
-//    boxShadow: '0 6px 18px rgba(0, 0, 0, 0.08)',
-//    transition: 'transform 0.3s ease-in-out',
-//    ':hover': {
-//     transform: 'translateY(-5px)',
-//    },
-//   },
-//   statNumber: {
-//    fontSize: '3em',
-//    fontWeight: 700,
-//    color: '#007bff',
-//    marginBottom: '10px',
-//   },
-//   statText: {
-//    fontSize: '1.1em',
-//    color: '#666',
-//   },
-//   // Existing highlights section styles (might need adjustments for global use if moved)
-//   highlightsSection: { // Renamed for clarity, assumed to be below the hero
-//    backgroundColor: '#ffffff',
-//    padding: '60px 20px',
-//    width: '100%',
-//    textAlign: 'center',
-//    color: '#333',
-//   },
-//   highlightsGrid: {
-//    display: 'grid',
-//    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', // Adjust minmax for better layout
-//    gap: '30px',
-//    maxWidth: '1000px',
-//    margin: '40px auto 0 auto',
-//   },
-//   highlightItem: {
-//    backgroundColor: '#fdfdfd',
-//    padding: '25px',
-//    borderRadius: '10px',
-//    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.07)',
-//    borderLeft: '5px solid #28a745', // Use a different highlight color
-//    textAlign: 'left',
-//   },
-//   highlightTitle: {
-//    fontWeight: 700,
-//    color: '#28a745', // Use highlight color
-//    marginBottom: '10px',
-//    fontSize: '1.3em',
-//   },
-//   highlightDescription: {
-//    fontSize: '1em',
-//    color: '#666',
-//   },
+ 
+//  const highLevelStatistics = [
+//   { number: '100K+', text: 'Tests Completed Annually' },
+//   { number: '98%', text: 'User Satisfaction Rate' },
+//   { number: '20+', text: 'Years of Cognitive Research' },
+//  ];
+
+//  const detailedStats = {
+//   global: [
+//    { label: 'Global Average IQ', value: '100' },
+//    { label: 'Top Scoring Countries (Avg)', value: '102 - 108' },
+//    { label: 'Common Range (68% of Population)', value: '85 - 115' },
+//   ],
+//   demographics: [
+//    { label: 'Average Score (Male)', value: '100.5' },
+//    { label: 'Average Score (Female)', value: '99.5' },
+//    { label: 'Peak Cognitive Age', value: '25 - 35 years' },
+//   ]
 //  };
 
 //  const highlights = [
@@ -461,67 +179,120 @@ export default HomeScreen;
 //   { title: 'User-Friendly Design', description: 'Clean layouts, intuitive navigation, and guidance at every step of the assessment.' },
 //  ];
 
-//  const statistics = [
-//   { number: '100K+', text: 'Tests Completed Annually' },
-//   { number: '98%', text: 'User Satisfaction Rate' },
-//   { number: '20+', text: 'Years of Cognitive Research' },
-//  ];
-
 //  return (
 //   <>
-//    {/* Hero Section with Background Image */}
-//    <div style={styles.container}>
-//     <div style={styles.contentWrapper}>
-//      <h1 style={styles.h1}>Measure Your Cognitive Strength With Precision</h1>
-//      <p style={styles.subHeadline}>
+//    {/* 1. Hero Section with Background Image 1 */}
+//    <div 
+//     className="min-h-[85vh] flex flex-col justify-center items-center text-center text-white bg-cover bg-center overflow-hidden"
+//     style={{ 
+//      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundHeroImage})` 
+//     }}
+//    >
+//     <div className="max-w-4xl p-8 z-10">
+//      <h1 className="text-5xl md:text-6xl text-blue-400 mb-5 font-extrabold tracking-tight [text-shadow:2px_2px_4px_rgba(0,0,0,0.5)]">
+//       Measure Your Cognitive Strength With Precision
+//      </h1>
+//      <p className="text-xl md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
 //       Our advanced IQ testing platform delivers accurate, research-based insights into your reasoning, memory, analytical thinking, and problem-solving abilities.
 //      </p>
      
-//      <div style={styles.ctaContainer}>
-//       <Link to='/quiz' style={styles.primaryCta}>
+//      <div className="flex justify-center gap-6 flex-wrap">
+//       <Link to='/quiz' className="px-8 py-4 text-xl bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 transform hover:scale-105 shadow-lg">
 //        Start Your IQ Test →
 //       </Link>
-//       <Link to='/about' style={styles.secondaryCta}>
+//       <Link to='/about' className="px-8 py-4 text-xl bg-transparent text-blue-400 font-semibold rounded-lg border-2 border-blue-400 hover:bg-blue-400 hover:text-white transition duration-300 transform hover:scale-105">
 //        Explore How It Works →
 //       </Link>
 //      </div>
 //     </div>
 //    </div>
 
-//    {/* Introduction Section */}
-//    <div style={{ ...styles.highlightsSection, backgroundColor: '#ffffff' }}> {/* Reusing highlightsSection style for general sections */}
-//     <h2 style={{ fontSize: '2em', color: '#333', marginBottom: '20px' }}>Unlock Your Cognitive Potential</h2>
-//     <p style={{ fontSize: '1.1em', maxWidth: '800px', margin: '0 auto 40px auto', color: '#666' }}>
-//      Understanding your cognitive abilities shouldn’t require complicated forms, outdated test formats, or vague results. Our platform provides a **modern, reliable, and user-centered approach** to IQ evaluation. Each assessment is built with scientific rigor, ensuring an experience that is both scientifically meaningful and easy to navigate.
-//     </p>
+//    {/* 2. Introduction Section */}
+//    <div className="bg-white py-16 px-4 text-center text-gray-800">
+//     <div className="max-w-4xl mx-auto">
+//      <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-700">Unlock Your Cognitive Potential</h2>
+//      <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+//       Understanding your cognitive abilities shouldn’t require complicated forms, outdated test formats, or vague results. Our platform provides a **modern, reliable, and user-centered approach** to IQ evaluation. Each assessment is built with scientific rigor, ensuring an experience that is both scientifically meaningful and easy to navigate.
+//      </p>
+//     </div>
 //    </div>
 
-//    {/* Statistics Section */}
-//    <div style={styles.statsSection}>
-//     <h2 style={{ fontSize: '2.5em', color: '#343a40', marginBottom: '20px' }}>Why Choose Our Platform?</h2>
-//     <p style={{ fontSize: '1.1em', maxWidth: '800px', margin: '0 auto 40px auto', color: '#555' }}>
+//    {/* 3. High-Level Statistics Section with Background Image 2 */}
+//    <div 
+//     className="py-20 px-4 text-center text-white bg-cover bg-center"
+//     style={{ 
+//      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url(${backgroundStatsImage})` 
+//     }}
+//    >
+//     <h2 className="text-4xl font-bold mb-4 text-blue-400 [text-shadow:2px_2px_4px_#000]">Platform Impact & Trust</h2>
+//     <p className="text-lg max-w-2xl mx-auto mb-10 text-gray-300">
 //      Join thousands of users who trust our platform for accurate, insightful, and accessible cognitive assessments.
 //     </p>
-//     <div style={styles.statsGrid}>
-//      {statistics.map((stat, index) => (
-//       <div key={index} style={styles.statItem}>
-//        <div style={styles.statNumber}>{stat.number}</div>
-//        <div style={styles.statText}>{stat.text}</div>
+//     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+//      {highLevelStatistics.map((stat, index) => (
+//       <div 
+//        key={index} 
+//        className="bg-black/40 border border-blue-500/50 p-8 rounded-xl shadow-2xl transition duration-300 hover:scale-[1.02]"
+//       >
+//        <div className="text-5xl font-extrabold text-green-400 mb-2">{stat.number}</div>
+//        <div className="text-xl font-semibold text-gray-200">{stat.text}</div>
 //       </div>
 //      ))}
 //     </div>
 //    </div>
-
-//    {/* Key Highlights Section */}
-//    <div style={{ ...styles.highlightsSection, backgroundColor: '#f8f8f8' }}>
-//     <h2 style={{ fontSize: '2.5em', color: '#343a40', marginBottom: '30px' }}>Key Highlights</h2>
-//     <div style={styles.highlightsGrid}>
-//      {highlights.map((item, index) => (
-//       <div key={index} style={styles.highlightItem}>
-//        <h3 style={styles.highlightTitle}>{item.title}</h3>
-//        <p style={styles.highlightDescription}>{item.description}</p>
+        
+//    {/* 4. Detailed Statistics & Visualization Section */}
+//    <div className="bg-gray-50 py-16 px-4">
+//     <div className="max-w-5xl mx-auto text-center">
+//      <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-700">IQ Score Benchmarks & Insights</h2>
+//      <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-12">
+//       Contextualize your potential results using established global and demographic averages.
+//      </p>
+     
+//      <div className="flex flex-col lg:flex-row justify-between items-start gap-10">
+//       {/* Detailed Statistics Block: Global & Demographics */}
+//       <div className="flex-1 w-full bg-white p-6 rounded-xl shadow-lg border-t-4 border-yellow-500">
+//        <h3 className="text-2xl font-semibold text-blue-600 mb-4 pb-2 border-b">Global & Demographic Averages</h3>
+//        {detailedStats.global.map((item, index) => (
+//         <div key={'g'+index} className="flex justify-between items-center py-3 border-b border-gray-200 last:border-b-0 text-gray-700">
+//          <strong className="text-lg">{item.label}</strong>
+//          <span className="text-xl font-bold text-green-600">{item.value}</span>
+//         </div>
+//        ))}
+//        <div className="mt-4 pt-4 border-t-2 border-dashed">
+//         {detailedStats.demographics.map((item, index) => (
+//          <div key={'d'+index} className="flex justify-between items-center py-3 border-b border-gray-200 last:border-b-0 text-gray-700">
+//           <strong className="text-lg">{item.label}</strong>
+//           <span className="text-xl font-bold text-green-600">{item.value}</span>
+//         </div>
+//         ))}
+//        </div>
 //       </div>
-//      ))}
+
+//       {/* Graph/Image Visualization Placeholder */}
+//       <div className="flex-1 w-full bg-white p-6 rounded-xl shadow-lg border-t-4 border-blue-600">
+//        <h3 className="text-2xl font-semibold text-blue-600 mb-4 pb-2 border-b">IQ Score Distribution</h3>
+//        <p className="text-gray-500 mb-4">A visualization of the normalized cognitive curve.</p>
+       
+//       </div>
+//      </div>
+//     </div>
+//    </div>
+
+//    {/* 5. Key Highlights Section */}
+//    <div className="bg-white py-16 px-4">
+//     <div className="max-w-5xl mx-auto text-center">
+//      <h2 className="text-3xl md:text-4xl font-bold mb-10 text-gray-700">Key Highlights</h2>
+//      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+//       {highlights.map((item, index) => (
+//        <div key={index} className="bg-gray-50 p-6 rounded-xl shadow-md border-l-4 border-green-500 text-left transition duration-300 hover:shadow-xl hover:-translate-y-1">
+//         {/* Placeholder for Icon */}
+//         <div className="text-3xl mb-3 text-green-600">🧠</div>
+//         <h3 className="text-xl font-bold text-gray-800 mb-2">{item.title}</h3>
+//         <p className="text-gray-600 text-sm">{item.description}</p>
+//        </div>
+//       ))}
+//      </div>
 //     </div>
 //    </div>
 //   </>
