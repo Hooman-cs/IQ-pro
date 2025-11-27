@@ -1,11 +1,11 @@
-// client/src/pages/HomeScreen.jsx
+/// client/src/pages/HomeScreen.jsx
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 import backgroundHeroImage from '../assets/images/background_1.png'; 
 import backgroundStatsImage from '../assets/images/background_2.png'; 
 import bellCurveImage from '../assets/images/bellcurve.png'; 
-import maleFemaleBellCurveImage from '../assets/images/male_female_bellcurve.png'; // <-- NEW IMAGE IMPORT
+import maleFemaleBellCurveImage from '../assets/images/male_female_bellcurve.png'; 
 
 const HomeScreen = () => {
 
@@ -93,7 +93,8 @@ return (
   </p>
   
   <div className="flex flex-col lg:flex-row justify-between items-start gap-10">
-   {/* Left Column: Overall Bell Curve with explanation */}
+   
+   {/* Left Column: Overall Bell Curve with explanation (Improved Bullet Points) */}
    <div className="flex-1 w-full bg-white p-6 rounded-xl shadow-lg border-t-4 border-yellow-500">
    <h3 className="text-2xl font-semibold text-blue-600 mb-4 pb-2 border-b">Global IQ Distribution</h3>
    <img 
@@ -101,12 +102,23 @@ return (
     alt="IQ Score Bell Curve Distribution" 
     className="w-full h-auto rounded-lg shadow-md mb-4" 
    />
-   <p className="text-gray-700 text-sm leading-relaxed">
-    This curve illustrates how IQ scores are distributed across a population, with the average IQ at 100. The majority (about 68%) fall between 85-115, indicating typical cognitive abilities. Scores deviate from the average as less common, representing exceptionally high or low intelligence.
-   </p>
+   <ul className="space-y-3 pt-2 text-gray-700 text-sm leading-relaxed pl-2">
+            <li className="relative pl-6 before:content-['\2713'] before:absolute before:left-0 before:text-lg before:font-bold before:text-green-500">
+                The **Average IQ** is standardized to **100**, representing the mean cognitive ability of the population.
+            </li>
+            <li className="relative pl-6 before:content-['\2713'] before:absolute before:left-0 before:text-lg before:font-bold before:text-green-500">
+                The **Normal Range (85-115)** covers approximately **68%** of the population (one standard deviation).
+            </li>
+            <li className="relative pl-6 before:content-['\2713'] before:absolute before:left-0 before:text-lg before:font-bold before:text-green-500">
+                Scores **above 130** (two standard deviations) are considered gifted, representing the top **2.2%** of individuals.
+            </li>
+            <li className="relative pl-6 before:content-['\2713'] before:absolute before:left-0 before:text-lg before:font-bold before:text-green-500">
+                The shape of the curve shows that scores further from the average are progressively less common.
+            </li>
+   </ul>
    </div>
 
-   {/* Right Column: Male vs. Female Bell Curve with explanation */}
+   {/* Right Column: Male vs. Female Bell Curve with explanation (Improved Bullet Points) */}
    <div className="flex-1 w-full bg-white p-6 rounded-xl shadow-lg border-t-4 border-blue-600">
    <h3 className="text-2xl font-semibold text-blue-600 mb-4 pb-2 border-b">IQ by Gender: Distribution Spread</h3>
    <img 
@@ -114,9 +126,20 @@ return (
     alt="IQ Scores: Men & Women Are Equally Smart" 
     className="w-full h-auto rounded-lg shadow-md mb-4" 
    />
-   <p className="text-gray-700 text-sm leading-relaxed">
-    While the average IQ score remains consistent (around 100) for both men and women, studies often show a difference in the **spread** of scores. Men tend to have a wider distribution, meaning there are proportionally more men at both the very high and very low ends of the IQ spectrum, while women's scores cluster more closely around the average.
-   </p>
+   <ul className="space-y-3 pt-2 text-gray-700 text-sm leading-relaxed pl-2">
+            <li className="relative pl-6 before:content-['\2713'] before:absolute before:left-0 before:text-lg before:font-bold before:text-green-500">
+                The **Average IQ** for men and women is essentially the **same** (approximately 100).
+            </li>
+            <li className="relative pl-6 before:content-['\2713'] before:absolute before:left-0 before:text-lg before:font-bold before:text-green-500">
+                The **Female distribution** curve (narrower) shows scores clustering more closely around the mean.
+            </li>
+            <li className="relative pl-6 before:content-['\2713'] before:absolute before:left-0 before:text-lg before:font-bold before:text-green-500">
+                The **Male distribution** curve (wider/flatter) shows a greater **variance** in scores.
+            </li>
+            <li className="relative pl-6 before:content-['\2713'] before:absolute before:left-0 before:text-lg before:font-bold before:text-green-500">
+                Wider variance means proportionally **more males** are found at the very high and very low ends of the spectrum.
+            </li>
+   </ul>
    </div>
   </div>
   </div>
