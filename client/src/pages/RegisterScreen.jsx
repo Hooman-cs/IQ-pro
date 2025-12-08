@@ -1,7 +1,9 @@
+// client/src/pages/RegisterScreen.jsx
+
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { registerUser  } from '../slices/authSlice';
+import { registerUser } from '../slices/authSlice';
 
 const RegisterScreen = () => {
   const [username, setUsername] = useState('');
@@ -46,15 +48,20 @@ const RegisterScreen = () => {
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '400px', margin: '0 auto' }}>
-      <h1>Register</h1>
+    <div className="p-6 max-w-md mx-auto my-10 bg-white rounded-xl shadow-lg border border-gray-100">
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">Register</h1>
       
       {/* Show error/success messages */}
-      {message && <p style={{ color: 'red', border: '1px solid red', padding: '10px' }}>{message}</p>}
+      {message && (
+        <p className="text-red-700 bg-red-100 border border-red-400 p-3 rounded-md mb-4 text-center">
+          {message}
+        </p>
+      )}
 
-      <form onSubmit={submitHandler} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+      <form onSubmit={submitHandler} className="flex flex-col space-y-4">
+        {/* Username Field */}
         <div>
-          <label htmlFor='username'>Username</label>
+          <label htmlFor='username' className="block text-gray-700 font-medium mb-1">Username</label>
           <input
             id='username'
             type='text'
@@ -62,12 +69,13 @@ const RegisterScreen = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            style={{ width: '100%', padding: '10px', marginTop: '5px' }}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150"
           />
         </div>
 
+        {/* Email Field */}
         <div>
-          <label htmlFor='email'>Email Address</label>
+          <label htmlFor='email' className="block text-gray-700 font-medium mb-1">Email Address</label>
           <input
             id='email'
             type='email'
@@ -75,12 +83,13 @@ const RegisterScreen = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ width: '100%', padding: '10px', marginTop: '5px' }}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150"
           />
         </div>
 
+        {/* Password Field */}
         <div>
-          <label htmlFor='password'>Password</label>
+          <label htmlFor='password' className="block text-gray-700 font-medium mb-1">Password</label>
           <input
             id='password'
             type='password'
@@ -88,12 +97,13 @@ const RegisterScreen = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '10px', marginTop: '5px' }}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150"
           />
         </div>
 
+        {/* Confirm Password Field */}
         <div>
-          <label htmlFor='confirmPassword'>Confirm Password</label>
+          <label htmlFor='confirmPassword' className="block text-gray-700 font-medium mb-1">Confirm Password</label>
           <input
             id='confirmPassword'
             type='password'
@@ -101,11 +111,15 @@ const RegisterScreen = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '10px', marginTop: '5px' }}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150"
           />
         </div>
 
-        <button type='submit' style={{ padding: '10px', background: '#333', color: 'white', border: 'none', cursor: 'pointer' }}>
+        {/* Submit Button */}
+        <button 
+          type='submit' 
+          className="w-full py-3 mt-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300"
+        >
           Register
         </button>
       </form>

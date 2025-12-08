@@ -1,3 +1,5 @@
+// client/src/pages/DashboardScreen.jsx
+
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -14,76 +16,76 @@ const DashboardScreen = () => {
     dispatch(listMyResults());
   }, [dispatch]);
 
+  // The state structure indicates that results are likely returned sorted by latest first.
   const latestResult = myResults.length > 0 ? myResults[0] : null;
 
   const calculatePercentage = (correct, total) => {
       return total > 0 ? ((correct / total) * 100).toFixed(1) : 0;
   };
 
-  const styles = {
-    container: { padding: '30px', maxWidth: '800px', margin: '30px auto', border: '1px solid #ddd', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0,0,0,0.05)' },
-    welcome: { color: '#007bff', borderBottom: '2px solid #eee', paddingBottom: '15px', marginBottom: '30px' },
-    cardContainer: { display: 'flex', gap: '20px', justifyContent: 'space-between' },
-    card: (bg) => ({
-      flex: 1,
-      padding: '25px',
-      borderRadius: '8px',
-      textAlign: 'center',
-      color: 'white',
-      backgroundColor: bg,
-      textDecoration: 'none',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-      transition: '0.3s',
-    }),
-    statsSection: { marginTop: '40px', padding: '20px', borderTop: '1px solid #ccc' },
-    statBox: { padding: '15px', border: '1px solid #007bff', borderRadius: '5px', textAlign: 'center', backgroundColor: '#e6f7ff' }
-  };
+  // Removed the 'styles' object and inline styles.
 
-  if (loading) return <div style={{ padding: '20px', textAlign: 'center' }}>Loading dashboard...</div>;
-  if (error) return <div style={{ padding: '20px', color: 'red', textAlign: 'center' }}>Error loading data: {error}</div>;
+  if (loading) return <div className="p-5 text-center text-blue-600 font-medium">Loading dashboard...</div>;
+  if (error) return <div className="p-5 text-red-600 text-center font-medium border border-red-300 bg-red-50 mx-auto max-w-lg">Error loading data: {error}</div>;
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.welcome}>Welcome back, {userInfo.username}!</h1>
+    <div className="p-6 max-w-4xl mx-auto my-6 bg-white rounded-xl shadow-xl border border-gray-100">
+      
+      {/* Welcome Header */}
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-blue-600 border-b-2 border-gray-200 pb-4 mb-8">
+        Welcome back, {userInfo.username}!
+      </h1>
 
       {/* Action Cards: Start Test and History */}
-      <div style={styles.cardContainer}>
-        <Link to='/quiz' style={styles.card('#28a745')}>
-          <h2 style={{ margin: 0 }}>Start a New Test</h2>
-          <p style={{ margin: '5px 0 0 0' }}>Jump right back in!</p>
+      <div className="flex flex-col sm:flex-row gap-5 justify-between mb-10">
+        
+        {/* Start New Test Card */}
+        <Link 
+          to='/quiz' 
+          className="flex-1 p-6 rounded-lg text-center text-white bg-green-600 hover:bg-green-700 transition duration-300 shadow-md transform hover:scale-[1.02] cursor-pointer"
+        >
+          <h2 className="text-2xl font-bold">Start a New Test</h2>
+          <p className="mt-1 text-sm opacity-90">Jump right back in!</p>
         </Link>
-        <Link to='/history' style={styles.card('#007bff')}>
-          <h2 style={{ margin: 0 }}>View All History</h2>
-          <p style={{ margin: '5px 0 0 0' }}>Review your past scores.</p>
+        
+        {/* View History Card */}
+        <Link 
+          to='/history' 
+          className="flex-1 p-6 rounded-lg text-center text-white bg-blue-600 hover:bg-blue-700 transition duration-300 shadow-md transform hover:scale-[1.02] cursor-pointer"
+        >
+          <h2 className="text-2xl font-bold">View All History</h2>
+          <p className="mt-1 text-sm opacity-90">Review your past scores.</p>
         </Link>
       </div>
 
       {/* Latest Result Summary */}
-      <div style={styles.statsSection}>
-        <h3 style={{ marginBottom: '20px' }}>Latest Performance Summary</h3>
+      <div className="mt-10 pt-6 border-t border-gray-300">
+        <h3 className="text-2xl font-semibold text-gray-800 mb-6">Latest Performance Summary</h3>
         
         {latestResult ? (
-          <div style={styles.statBox}>
-            <p style={{ fontSize: '1.1em', marginBottom: '5px' }}>
-              Test Taken On: <strong>{new Date(latestResult.createdAt).toLocaleDateString()}</strong>
+          <div className="p-6 border-2 border-blue-500 rounded-lg text-center bg-blue-50 shadow-inner">
+            <p className="text-lg mb-2 text-gray-600">
+              Test Taken On: <strong className="text-gray-800">{new Date(latestResult.createdAt).toLocaleDateString()}</strong>
             </p>
-            <p style={{ fontSize: '2em', fontWeight: 'bolder', color: 'darkgreen', margin: '5px 0' }}>
+            <p className="text-5xl font-extrabold text-green-700 my-3">
               Score: {latestResult.totalScore}
             </p>
-            <p style={{ fontSize: '1.2em' }}>
+            <p className="text-xl text-gray-700 mb-4">
               Correct: {latestResult.correctAnswers} / {latestResult.questionsAttempted} ({calculatePercentage(latestResult.correctAnswers, latestResult.questionsAttempted)}%)
             </p>
             <Link 
               to={`/result/${latestResult._id}`} 
-              style={{ textDecoration: 'none', color: '#007bff', fontWeight: 'bold', marginTop: '10px', display: 'inline-block' }}
+              className="text-blue-600 hover:text-blue-800 font-bold mt-2 inline-block transition duration-200"
             >
               View Full Details &rarr;
             </Link>
           </div>
         ) : (
-          <p style={{ textAlign: 'center', padding: '15px', border: '1px dashed #ccc' }}>
-            No completed tests found. Start your first test now!
-          </p>
+          <div className="text-center p-6 border-2 border-dashed border-gray-400 rounded-lg text-gray-600 bg-gray-50">
+            <p className="text-lg">
+              No completed tests found. Start your first test now!
+            </p>
+          </div>
         )}
       </div>
 
@@ -92,3 +94,99 @@ const DashboardScreen = () => {
 };
 
 export default DashboardScreen;
+
+
+// import React, { useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { Link } from 'react-router-dom';
+// import { listMyResults } from '../slices/resultSlice';
+
+// const DashboardScreen = () => {
+//   const dispatch = useDispatch();
+  
+//   const { userInfo } = useSelector((state) => state.auth);
+//   const { myResults, loading, error } = useSelector((state) => state.result);
+
+//   useEffect(() => {
+//     // Fetch the list of results to show the latest one
+//     dispatch(listMyResults());
+//   }, [dispatch]);
+
+//   const latestResult = myResults.length > 0 ? myResults[0] : null;
+
+//   const calculatePercentage = (correct, total) => {
+//       return total > 0 ? ((correct / total) * 100).toFixed(1) : 0;
+//   };
+
+//   const styles = {
+//     container: { padding: '30px', maxWidth: '800px', margin: '30px auto', border: '1px solid #ddd', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0,0,0,0.05)' },
+//     welcome: { color: '#007bff', borderBottom: '2px solid #eee', paddingBottom: '15px', marginBottom: '30px' },
+//     cardContainer: { display: 'flex', gap: '20px', justifyContent: 'space-between' },
+//     card: (bg) => ({
+//       flex: 1,
+//       padding: '25px',
+//       borderRadius: '8px',
+//       textAlign: 'center',
+//       color: 'white',
+//       backgroundColor: bg,
+//       textDecoration: 'none',
+//       boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+//       transition: '0.3s',
+//     }),
+//     statsSection: { marginTop: '40px', padding: '20px', borderTop: '1px solid #ccc' },
+//     statBox: { padding: '15px', border: '1px solid #007bff', borderRadius: '5px', textAlign: 'center', backgroundColor: '#e6f7ff' }
+//   };
+
+//   if (loading) return <div style={{ padding: '20px', textAlign: 'center' }}>Loading dashboard...</div>;
+//   if (error) return <div style={{ padding: '20px', color: 'red', textAlign: 'center' }}>Error loading data: {error}</div>;
+
+//   return (
+//     <div style={styles.container}>
+//       <h1 style={styles.welcome}>Welcome back, {userInfo.username}!</h1>
+
+//       {/* Action Cards: Start Test and History */}
+//       <div style={styles.cardContainer}>
+//         <Link to='/quiz' style={styles.card('#28a745')}>
+//           <h2 style={{ margin: 0 }}>Start a New Test</h2>
+//           <p style={{ margin: '5px 0 0 0' }}>Jump right back in!</p>
+//         </Link>
+//         <Link to='/history' style={styles.card('#007bff')}>
+//           <h2 style={{ margin: 0 }}>View All History</h2>
+//           <p style={{ margin: '5px 0 0 0' }}>Review your past scores.</p>
+//         </Link>
+//       </div>
+
+//       {/* Latest Result Summary */}
+//       <div style={styles.statsSection}>
+//         <h3 style={{ marginBottom: '20px' }}>Latest Performance Summary</h3>
+        
+//         {latestResult ? (
+//           <div style={styles.statBox}>
+//             <p style={{ fontSize: '1.1em', marginBottom: '5px' }}>
+//               Test Taken On: <strong>{new Date(latestResult.createdAt).toLocaleDateString()}</strong>
+//             </p>
+//             <p style={{ fontSize: '2em', fontWeight: 'bolder', color: 'darkgreen', margin: '5px 0' }}>
+//               Score: {latestResult.totalScore}
+//             </p>
+//             <p style={{ fontSize: '1.2em' }}>
+//               Correct: {latestResult.correctAnswers} / {latestResult.questionsAttempted} ({calculatePercentage(latestResult.correctAnswers, latestResult.questionsAttempted)}%)
+//             </p>
+//             <Link 
+//               to={`/result/${latestResult._id}`} 
+//               style={{ textDecoration: 'none', color: '#007bff', fontWeight: 'bold', marginTop: '10px', display: 'inline-block' }}
+//             >
+//               View Full Details &rarr;
+//             </Link>
+//           </div>
+//         ) : (
+//           <p style={{ textAlign: 'center', padding: '15px', border: '1px dashed #ccc' }}>
+//             No completed tests found. Start your first test now!
+//           </p>
+//         )}
+//       </div>
+
+//     </div>
+//   );
+// };
+
+// export default DashboardScreen;

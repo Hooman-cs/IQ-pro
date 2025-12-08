@@ -1,289 +1,120 @@
+//client/src/pages/ContactUsScreen.jsx
+
 import React, { useState } from 'react';
 import api from '../utils/api';
 
 const ContactUsScreen = () => {
- const [formData, setFormData] = useState({ name: '', email: '', message: '' });
- const [loading, setLoading] = useState(false);
- const [success, setSuccess] = useState(null);
+const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+const [loading, setLoading] = useState(false);
+const [success, setSuccess] = useState(null);
 
- const styles = {
-  container: {
-   maxWidth: '600px',
-   margin: '0 auto',
-   padding: '40px 20px',
-   lineHeight: '1.6',
-   backgroundColor: '#f8f9fa',
-   borderRadius: '8px',
-   boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-  },
-  h2: {
-   color: '#007bff',
-   borderBottom: '2px solid #dee2e6',
-   paddingBottom: '10px',
-   marginBottom: '30px',
-   textAlign: 'center',
-   fontSize: '2em',
-  },
-  contactInfo: {
-   marginBottom: '30px',
-   textAlign: 'center',
-   backgroundColor: '#e9ecef',
-   padding: '15px',
-   borderRadius: '4px',
-  },
-  formGroup: {
-   marginBottom: '15px',
-  },
-  label: {
-   display: 'block',
-   marginBottom: '5px',
-   fontWeight: 'bold',
-  },
-  input: {
-   width: '100%',
-   padding: '10px',
-   border: '1px solid #ccc',
-   borderRadius: '4px',
-   boxSizing: 'border-box',
-  },
-  textarea: {
-   width: '100%',
-   padding: '10px',
-   border: '1px solid #ccc',
-   borderRadius: '4px',
-   resize: 'vertical',
-   boxSizing: 'border-box',
-  },
-  button: {
-   width: '100%',
-   padding: '10px',
-   backgroundColor: '#28a745',
-   color: 'white',
-   border: 'none',
-   borderRadius: '4px',
-   cursor: 'pointer',
-   fontSize: '1em',
-   opacity: loading ? 0.6 : 1,
-  },
-  message: {
-   padding: '10px',
-   borderRadius: '4px',
-   marginBottom: '15px',
-   textAlign: 'center',
-  },
- };
+// The 'styles' object is removed, and all styling is replaced with Tailwind classes.
 
- const handleChange = (e) => {
-  setFormData({ ...formData, [e.target.id]: e.target.value });
-  setSuccess(null);
- };
+const handleChange = (e) => {
+ setFormData({ ...formData, [e.target.id]: e.target.value });
+ setSuccess(null);
+};
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setSuccess(null);
+const handleSubmit = async (e) => {
+ e.preventDefault();
+ setLoading(true);
+ setSuccess(null);
 
-  try {
-   const { data } = await api.post('/contact', formData);
-   setSuccess({ type: 'success', message: data.message });
-   setFormData({ name: '', email: '', message: '' });
-  } catch (error) {
-   const message = 
-    error.response && error.response.data.message
-     ? error.response.data.message
-     : 'Failed to send message. Please check your connection.';
-   setSuccess({ type: 'error', message });
-  } finally {
-   setLoading(false);
-  }
- };
+ try {
+ const { data } = await api.post('/contact', formData);
+ setSuccess({ type: 'success', message: data.message });
+ setFormData({ name: '', email: '', message: '' });
+ } catch (error) {
+ const message = 
+  error.response && error.response.data.message
+  ? error.response.data.message
+  : 'Failed to send message. Please check your connection.';
+ setSuccess({ type: 'error', message });
+ } finally {
+ setLoading(false);
+ }
+};
 
- return (
-  <div style={styles.container}>
-   <h2 style={styles.h2}>Get In Touch With Our Team</h2>
-   
-   <div style={styles.contactInfo}>
-    <p>
-     **Have a question, suggestion, or technical issue?** We’re here to help you improve your testing experience.
-    </p>
-    <p style={{ fontWeight: 'bold', color: '#007bff' }}>
-     Support Email: support@yourdomain.com
-    </p>
-    <p style={{ fontSize: '0.9em', color: '#6c757d' }}>
-     Typical Response Time: Within 24 hours.
-    </p>
-   </div>
+// Dynamic Tailwind classes for the success/error message
+const messageClasses = success 
+ ? success.type === 'success' 
+ ? 'bg-green-100 text-green-800 border-green-400' 
+ : 'bg-red-100 text-red-800 border-red-400' 
+ : '';
 
-   {success && (
-    <div style={{ 
-      ...styles.message, 
-      backgroundColor: success.type === 'success' ? '#d4edda' : '#f8d7da',
-      color: success.type === 'success' ? '#155724' : '#721c24'
-    }}>
-     {success.message}
-    </div>
-   )}
+return (
+ <div className="max-w-xl mx-auto my-10 p-6 sm:p-8 bg-white rounded-lg shadow-xl border border-gray-100">
+ <h2 className="text-3xl font-bold text-blue-600 border-b-2 border-gray-200 pb-3 mb-8 text-center">
+  Get In Touch With Our Team
+ </h2>
+ 
+ {/* Contact Info Section */}
+ <div className="mb-6 p-4 text-center bg-blue-50 rounded-md border border-blue-200">
+  <p className="text-gray-700 mb-2">
+  <b>Have a question, suggestion, or technical issue?</b> We’re here to help you improve your testing experience.
+  </p>
+  <p className="font-bold text-blue-700 text-lg">
+  Support Email: support@yourdomain.com
+  </p>
+  <p className="text-sm text-gray-500 mt-1">
+  Typical Response Time: Within 24 hours.
+  </p>
+ </div>
 
-   <form onSubmit={handleSubmit}>
-    <div style={styles.formGroup}>
-     <label htmlFor="name" style={styles.label}>Name</label>
-     <input type="text" id="name" required style={styles.input} value={formData.name} onChange={handleChange} disabled={loading} />
-    </div>
-    <div style={styles.formGroup}>
-     <label htmlFor="email" style={styles.label}>Email</label>
-     <input type="email" id="email" required style={styles.input} value={formData.email} onChange={handleChange} disabled={loading} />
-    </div>
-    <div style={styles.formGroup}>
-     <label htmlFor="message" style={styles.label}>Message</label>
-     <textarea id="message" rows="5" required style={styles.textarea} value={formData.message} onChange={handleChange} disabled={loading}></textarea>
-    </div>
-    <button type="submit" style={styles.button} disabled={loading}>
-     {loading ? 'Sending...' : 'Send Message'}
-    </button>
-   </form>
+ {/* Success/Error Message */}
+ {success && (
+  <div className={`p-3 rounded-md mb-6 text-center font-medium border ${messageClasses}`}>
+  {success.message}
   </div>
- );
+ )}
+
+ <form onSubmit={handleSubmit}>
+  <div className="mb-4">
+  <label htmlFor="name" className="block mb-1 font-semibold text-gray-700">Name</label>
+  <input 
+   type="text" 
+   id="name" 
+   required 
+   className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 disabled:bg-gray-200 disabled:cursor-not-allowed" 
+   value={formData.name} 
+   onChange={handleChange} 
+   disabled={loading} 
+  />
+  </div>
+  <div className="mb-4">
+  <label htmlFor="email" className="block mb-1 font-semibold text-gray-700">Email</label>
+  <input 
+   type="email" 
+   id="email" 
+   required 
+   className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 disabled:bg-gray-200 disabled:cursor-not-allowed" 
+   value={formData.email} 
+   onChange={handleChange} 
+   disabled={loading} 
+  />
+  </div>
+  <div className="mb-6">
+  <label htmlFor="message" className="block mb-1 font-semibold text-gray-700">Message</label>
+  <textarea 
+   id="message" 
+   rows="5" 
+   required 
+   className="w-full p-2 border border-gray-300 rounded-md resize-y focus:ring-blue-500 focus:border-blue-500 transition duration-150 disabled:bg-gray-200 disabled:cursor-not-allowed" 
+   value={formData.message} 
+   onChange={handleChange} 
+   disabled={loading}
+  ></textarea>
+  </div>
+  <button 
+   type="submit" 
+   className="w-full py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 disabled:opacity-60 disabled:cursor-not-allowed" 
+   disabled={loading}
+  >
+  {loading ? 'Sending...' : 'Send Message'}
+  </button>
+ </form>
+ </div>
+);
 };
 
 export default ContactUsScreen;
-
-
-// import React, { useState } from 'react';
-// import api from '../utils/api'; // <-- NEW IMPORT: for making API calls
-
-// const ContactUsScreen = () => {
-//  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-//  const [loading, setLoading] = useState(false); // NEW STATE: for loading indicator
-//  const [success, setSuccess] = useState(null); // NEW STATE: for success/error messages
-
-//  const styles = {
-//   container: {
-//    maxWidth: '600px',
-//    margin: '0 auto',
-//    padding: '20px',
-//    lineHeight: '1.6',
-//    backgroundColor: '#f8f9fa',
-//    borderRadius: '8px',
-//    boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-//   },
-//   h2: {
-//    color: '#007bff',
-//    borderBottom: '2px solid #dee2e6',
-//    paddingBottom: '10px',
-//    marginBottom: '20px',
-//    textAlign: 'center',
-//   },
-//   contactInfo: {
-//    marginBottom: '30px',
-//    textAlign: 'center',
-//   },
-//   formGroup: {
-//    marginBottom: '15px',
-//   },
-//   label: {
-//    display: 'block',
-//    marginBottom: '5px',
-//    fontWeight: 'bold',
-//   },
-//   input: {
-//    width: '100%',
-//    padding: '10px',
-//    border: '1px solid #ccc',
-//    borderRadius: '4px',
-//    boxSizing: 'border-box',
-//   },
-//   textarea: {
-//    width: '100%',
-//    padding: '10px',
-//    border: '1px solid #ccc',
-//    borderRadius: '4px',
-//    resize: 'vertical',
-//    boxSizing: 'border-box',
-//   },
-//   button: {
-//    width: '100%',
-//    padding: '10px',
-//    backgroundColor: '#28a745',
-//    color: 'white',
-//    border: 'none',
-//    borderRadius: '4px',
-//    cursor: 'pointer',
-//    fontSize: '1em',
-//    opacity: loading ? 0.6 : 1, // Disable button visually when loading
-//   },
-//   message: {
-//    padding: '10px',
-//    borderRadius: '4px',
-//    marginBottom: '15px',
-//    textAlign: 'center',
-//   },
-//  };
-
-//  const handleChange = (e) => {
-//   setFormData({ ...formData, [e.target.id]: e.target.value });
-//   setSuccess(null); // Clear messages on input change
-//  };
-
-//  const handleSubmit = async (e) => {
-//   e.preventDefault();
-//   setLoading(true);
-//   setSuccess(null);
-
-//   try {
-//    const { data } = await api.post('/contact', formData); // <-- API CALL TO NEW ENDPOINT
-//    setSuccess({ type: 'success', message: data.message });
-//    setFormData({ name: '', email: '', message: '' }); // Clear form on success
-//   } catch (error) {
-//    const message = 
-//     error.response && error.response.data.message
-//      ? error.response.data.message
-//      : 'Failed to send message. Please try again later.';
-//    setSuccess({ type: 'error', message });
-//   } finally {
-//    setLoading(false);
-//   }
-//  };
-
-//  return (
-//   <div style={styles.container}>
-//    <h2 style={styles.h2}>Get In Touch</h2>
-   
-//    <div style={styles.contactInfo}>
-//     <p>If you have any questions, feedback, or need support, please contact us:</p>
-//     <p>Email: **support@iqtestingplatform.org**</p>
-//     <p>Phone: **+1 (555) 123-4567**</p>
-//    </div>
-
-//    {/* Success/Error Message Display */}
-//    {success && (
-//     <div style={{ 
-//       ...styles.message, 
-//       backgroundColor: success.type === 'success' ? '#d4edda' : '#f8d7da',
-//       color: success.type === 'success' ? '#155724' : '#721c24'
-//     }}>
-//      {success.message}
-//     </div>
-//    )}
-
-//    <form onSubmit={handleSubmit}>
-//     <div style={styles.formGroup}>
-//      <label htmlFor="name" style={styles.label}>Name</label>
-//      <input type="text" id="name" required style={styles.input} value={formData.name} onChange={handleChange} disabled={loading} />
-//     </div>
-//     <div style={styles.formGroup}>
-//      <label htmlFor="email" style={styles.label}>Email</label>
-//      <input type="email" id="email" required style={styles.input} value={formData.email} onChange={handleChange} disabled={loading} />
-//     </div>
-//     <div style={styles.formGroup}>
-//      <label htmlFor="message" style={styles.label}>Message</label>
-//      <textarea id="message" rows="5" required style={styles.textarea} value={formData.message} onChange={handleChange} disabled={loading}></textarea>
-//     </div>
-//     <button type="submit" style={styles.button} disabled={loading}>
-//      {loading ? 'Sending...' : 'Send Message'}
-//     </button>
-//    </form>
-//   </div>
-//  );
-// };
-
-// export default ContactUsScreen;
