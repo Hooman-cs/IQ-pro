@@ -1,6 +1,4 @@
 // client/src/pages/FAQScreen.jsx
-
-// client/src/pages/FAQScreen.jsx
  
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link for the Contact Us link
@@ -85,60 +83,3 @@ return (
 };
 
 export default FAQScreen;
- 
-// import React from 'react';
-
-// const FAQScreen = () => {
-// // Removed the 'styles' object and migrated all styles to Tailwind CSS classes.
-
-// const faqItems = [
-//  { 
-//  question: 'Is the test scientifically valid?', 
-//  answer: 'Yes. Our assessments follow established psychometric principles and cognitive testing frameworks, enabling consistent and reliable estimation of intelligence indicators.' 
-//  },
-//  { 
-//  question: 'How long does the test take?', 
-//  answer: 'Most users complete the assessment within 10–20 minutes, depending on pace and focus.' 
-//  },
-//  { 
-//  question: 'Is the test suitable for all ages?', 
-//  answer: 'It is designed primarily for teens and adults (ages 14+). Younger children may require age-appropriate testing solutions.' 
-//  },
-//  { 
-//  question: 'Can I retake the test?', 
-//  answer: 'Absolutely. Retesting can help track improvements or compare different cognitive states over time.' 
-//  },
-//  { 
-//  question: 'Will my data remain private?', 
-//  answer: 'Yes — we follow strict data protection protocols, ensuring your results remain confidential. We do not share your information with third parties.' 
-//  },
-// ];
-
-// return (
-//  <div className="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8 leading-relaxed">
-//  {/* Heading */}
-//  <h2 className="text-3xl md:text-4xl text-blue-600 border-b-2 border-gray-200 pb-3 mb-8 font-bold text-center">
-//   Frequently Asked Questions (FAQ)
-//  </h2>
- 
-//  {/* FAQ List */}
-//  {faqItems.map((item, index) => (
-//   <div 
-//    key={index} 
-//    className="bg-gray-50 p-5 rounded-lg mb-4 border-l-4 border-blue-600 shadow-md transition duration-300 hover:shadow-lg"
-//   >
-//   {/* Question */}
-//   <p className="font-semibold text-lg text-gray-800 mb-2">
-//    {item.question}
-//   </p>
-//   {/* Answer */}
-//   <p className="text-gray-600 text-base">
-//    {item.answer}
-//   </p>
-//   </div>
-//  ))}
-//  </div>
-// );
-// };
-
-// export default FAQScreen;

@@ -1,3 +1,5 @@
+// server/routes/paymentRoutes.js
+
 import express from 'express';
 import { protect } from '../middleware/authMiddleware.js';
 import { createOrder, verifyPayment } from '../controllers/paymentController.js';

@@ -1,38 +1,33 @@
+// client/src/components/Footer.jsx
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-6 mt-10 border-t border-gray-700">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    /* mt-auto is the key here; it pushes the footer to the bottom of a flex container */
+    <footer className="bg-gray-800 text-white py-8 md:py-10 mt-auto border-t border-gray-700 w-full">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
         
         {/* Navigation Links */}
-        <div className="flex justify-center space-x-6 text-sm mb-4">
-          <Link to="/about" className="text-gray-400 hover:text-white transition duration-200">
-            About Us
-          </Link>
-          <Link to="/faq" className="text-gray-400 hover:text-white transition duration-200">
-            FAQ
-          </Link>
-          <Link to="/contact" className="text-gray-400 hover:text-white transition duration-200">
-            Contact Us
-          </Link>
-          {/* NEW LINKS */}
-          <Link to="/privacy-policy" className="text-gray-400 hover:text-white transition duration-200">
-            Privacy Policy
-          </Link>
-          <Link to="/terms" className="text-gray-400 hover:text-white transition duration-200">
-            Terms & Conditions
-          </Link>
+        <div className="flex flex-wrap justify-center gap-y-3 gap-x-6 text-xs md:text-sm mb-8 font-medium">
+          <Link to="/about" className="text-gray-400 hover:text-white transition duration-200">About Us</Link>
+          <Link to="/faq" className="text-gray-400 hover:text-white transition duration-200">FAQ</Link>
+          <Link to="/contact" className="text-gray-400 hover:text-white transition duration-200">Contact Us</Link>
+          <Link to="/privacy-policy" className="text-gray-400 hover:text-white transition duration-200">Privacy Policy</Link>
+          <Link to="/terms" className="text-gray-400 hover:text-white transition duration-200">Terms & Conditions</Link>
         </div>
 
+        {/* Divider for mobile */}
+        <div className="w-12 h-px bg-gray-700 mx-auto mb-6 md:hidden"></div>
+
         {/* Copyright */}
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-500 text-[11px] md:text-sm tracking-wide">
           IQ Test Platform &copy; {new Date().getFullYear()} IQScaler.com. All rights reserved.
         </p>
 
         {/* Disclaimer */}
-        <p className="text-xs text-gray-600 mt-2">
+        <p className="text-[9px] md:text-xs text-gray-600 mt-4 max-w-2xl mx-auto leading-relaxed px-4">
             Disclaimer: The test provided is for informational and self-assessment purposes only and is not a substitute for professional evaluation.
         </p>
 
@@ -42,15 +37,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-// import React from 'react';
-
-// const Footer = () => {
-//   return (
-//     <footer style={{ textAlign: 'center', padding: '10px', borderTop: '1px solid #ccc' }}>
-//       <p>IQ Test Platform &copy; 2025</p>
-//     </footer>
-//   );
-// };
-
-// export default Footer;

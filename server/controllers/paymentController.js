@@ -1,3 +1,5 @@
+// server/controllers/paymentController.js
+
 import asyncHandler from 'express-async-handler';
 import crypto from 'crypto';
 import razorpay from '../config/razorpay.js';
@@ -84,10 +86,6 @@ const verifyPayment = asyncHandler(async (req, res) => {
   
   // Get the resulting hash in hexadecimal format
   const expectedSignature = sha.digest('hex');
-
-  // const sha = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET);
-  // sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-  // const expectedSignature = sha.digest('hex');
 
   let updatedResult;
 

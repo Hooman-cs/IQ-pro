@@ -1,13 +1,32 @@
-@tailwind base;
+/*@tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities;*/
 
 /* * Optional: Add some basic global styles here.
  * Tailwind handles most styling, but you can set defaults here.
  */
-body {
+/*body {
     margin: 0;
     line-height: 1.5;
-    /* Optional: Use a Tailwind font stack for consistency */
-    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+*/    /* Optional: Use a Tailwind font stack for consistency */
+   /* font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}*/
+
+
+/* index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    line-height: 1.5;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    /* This ensures a consistent background color for the "empty" space */
+    @apply bg-gray-50; 
 }
