@@ -9,7 +9,6 @@ import HomeScreen from './pages/HomeScreen';
 import FAQScreen from './pages/FAQScreen';
 import AboutUsScreen from './pages/AboutUsScreen'; 
 import ContactUsScreen from './pages/ContactUsScreen';
-import BlankScreen from './pages/BlankScreen';
 
 // LAZY IMPORTS
 const LoginScreen = lazy(() => import('./pages/LoginScreen'));
@@ -48,7 +47,6 @@ function App() {
               <Route path='/register' element={<RegisterScreen />} />
               <Route path='/forgotpassword' element={<ForgotPasswordScreen />} />
               <Route path='/resetpassword/:resettoken' element={<ResetPasswordScreen />} />
-              <Route path='/blank' element={<BlankScreen />} />
               <Route path='/faq' element={<FAQScreen />} />
               <Route path='/about' element={<AboutUsScreen />} />
               <Route path='/contact' element={<ContactUsScreen />} />
