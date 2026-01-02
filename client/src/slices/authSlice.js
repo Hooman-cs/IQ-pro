@@ -95,6 +95,19 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const googleLogin = createAsyncThunk(
+  'auth/googleLogin',
+  async (idToken, { rejectWithValue }) => {
+    try {
+      const { data } = await api.post('/users/google', { idToken });
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 // --- Slice Definition ---
 
 const initialState = {
@@ -201,7 +214,17 @@ const authSlice = createSlice({
         state.usersLoading = false;
         state.usersError = action.payload;
         state.usersSuccess = false;
-      });
+      })
+
+      .addCase(googleLogin.pending, (state) => { state.loading = true; })
+  .addCase(googleLogin.fulfilled, (state, action) => {
+    state.loading = false;
+    state.userInfo = action.payload;
+  })
+  .addCase(googleLogin.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+  });
   },
 });
 

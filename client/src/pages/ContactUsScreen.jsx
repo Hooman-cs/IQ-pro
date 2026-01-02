@@ -1,120 +1,147 @@
-//client/src/pages/ContactUsScreen.jsx
+// client/src/pages/ContactUsScreen.jsx
 
 import React, { useState } from 'react';
-import api from '../utils/api';
+import axios from 'axios'; // Import standard axios for external API calls
 
 const ContactUsScreen = () => {
-const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-const [loading, setLoading] = useState(false);
-const [success, setSuccess] = useState(null);
+  const [formData, setFormData] = useState({ 
+    name: '', 
+    phone: '', 
+    email: '', 
+    message: '' 
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(null);
 
-// The 'styles' object is removed, and all styling is replaced with Tailwind classes.
+  const API_URL = 'https://jdpcglobal.com/api/save_contact_us';
+  const API_KEY = 'OPLjdk_sKLEO2MDBBWPT3789S_KLS';
 
-const handleChange = (e) => {
- setFormData({ ...formData, [e.target.id]: e.target.value });
- setSuccess(null);
-};
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+    setSuccess(null);
+  };
 
-const handleSubmit = async (e) => {
- e.preventDefault();
- setLoading(true);
- setSuccess(null);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setSuccess(null);
 
- try {
- const { data } = await api.post('/contact', formData);
- setSuccess({ type: 'success', message: data.message });
- setFormData({ name: '', email: '', message: '' });
- } catch (error) {
- const message = 
-  error.response && error.response.data.message
-  ? error.response.data.message
-  : 'Failed to send message. Please check your connection.';
- setSuccess({ type: 'error', message });
- } finally {
- setLoading(false);
- }
-};
+    // Prepare the payload for the PHP API
+    const payload = {
+      key: API_KEY,
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email, // Optional in API
+      message: formData.message, // Optional in API
+    };
 
-// Dynamic Tailwind classes for the success/error message
-const messageClasses = success 
- ? success.type === 'success' 
- ? 'bg-green-100 text-green-800 border-green-400' 
- : 'bg-red-100 text-red-800 border-red-400' 
- : '';
+    try {
+      // Direct call to external PHP API
+      const response = await axios.post(API_URL, payload);
+      
+      // Note: PHP APIs sometimes return status in different formats. 
+      // Assuming it returns success on 200 OK.
+      setSuccess({ type: 'success', message: 'Message sent successfully! We will contact you soon.' });
+      setFormData({ name: '', phone: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Contact API Error:', error);
+      setSuccess({ 
+        type: 'error', 
+        message: 'Unable to connect to the contact service. Please try again later.' 
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-return (
- <div className="max-w-xl mx-auto my-10 p-6 sm:p-8 bg-white rounded-lg shadow-xl border border-gray-100">
- <h2 className="text-3xl font-bold text-blue-600 border-b-2 border-gray-200 pb-3 mb-8 text-center">
-  Get In Touch With Our Team
- </h2>
- 
- {/* Contact Info Section */}
- <div className="mb-6 p-4 text-center bg-blue-50 rounded-md border border-blue-200">
-  <p className="text-gray-700 mb-2">
-  <b>Have a question, suggestion, or technical issue?</b> We’re here to help you improve your testing experience.
-  </p>
-  <p className="font-bold text-blue-700 text-lg">
-  Support Email: support@yourdomain.com
-  </p>
-  <p className="text-sm text-gray-500 mt-1">
-  Typical Response Time: Within 24 hours.
-  </p>
- </div>
+  const messageClasses = success 
+    ? success.type === 'success' 
+      ? 'bg-green-100 text-green-800 border-green-400' 
+      : 'bg-red-100 text-red-800 border-red-400' 
+    : '';
 
- {/* Success/Error Message */}
- {success && (
-  <div className={`p-3 rounded-md mb-6 text-center font-medium border ${messageClasses}`}>
-  {success.message}
-  </div>
- )}
+  return (
+    <div className="max-w-xl mx-auto my-10 p-6 sm:p-8 bg-white rounded-lg shadow-xl border border-gray-100">
+      <h2 className="text-3xl font-bold text-blue-600 border-b-2 border-gray-200 pb-3 mb-8 text-center">
+        Get In Touch With Our Team
+      </h2>
+      
+      {/* Success/Error Message */}
+      {success && (
+        <div className={`p-3 rounded-md mb-6 text-center font-medium border ${messageClasses}`}>
+          {success.message}
+        </div>
+      )}
 
- <form onSubmit={handleSubmit}>
-  <div className="mb-4">
-  <label htmlFor="name" className="block mb-1 font-semibold text-gray-700">Name</label>
-  <input 
-   type="text" 
-   id="name" 
-   required 
-   className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 disabled:bg-gray-200 disabled:cursor-not-allowed" 
-   value={formData.name} 
-   onChange={handleChange} 
-   disabled={loading} 
-  />
-  </div>
-  <div className="mb-4">
-  <label htmlFor="email" className="block mb-1 font-semibold text-gray-700">Email</label>
-  <input 
-   type="email" 
-   id="email" 
-   required 
-   className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 disabled:bg-gray-200 disabled:cursor-not-allowed" 
-   value={formData.email} 
-   onChange={handleChange} 
-   disabled={loading} 
-  />
-  </div>
-  <div className="mb-6">
-  <label htmlFor="message" className="block mb-1 font-semibold text-gray-700">Message</label>
-  <textarea 
-   id="message" 
-   rows="5" 
-   required 
-   className="w-full p-2 border border-gray-300 rounded-md resize-y focus:ring-blue-500 focus:border-blue-500 transition duration-150 disabled:bg-gray-200 disabled:cursor-not-allowed" 
-   value={formData.message} 
-   onChange={handleChange} 
-   disabled={loading}
-  ></textarea>
-  </div>
-  <button 
-   type="submit" 
-   className="w-full py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 disabled:opacity-60 disabled:cursor-not-allowed" 
-   disabled={loading}
-  >
-  {loading ? 'Sending...' : 'Send Message'}
-  </button>
- </form>
- </div>
-);
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Name Field */}
+        <div>
+          <label htmlFor="name" className="block mb-1 font-semibold text-gray-700">Full Name</label>
+          <input 
+            type="text" 
+            id="name" 
+            required 
+            placeholder="John Doe"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none" 
+            value={formData.name} 
+            onChange={handleChange} 
+            disabled={loading} 
+          />
+        </div>
+
+        {/* Phone Field - REQUIRED for this API */}
+        <div>
+          <label htmlFor="phone" className="block mb-1 font-semibold text-gray-700">Phone Number</label>
+          <input 
+            type="tel" 
+            id="phone" 
+            required 
+            placeholder="+1 234 567 890"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none" 
+            value={formData.phone} 
+            onChange={handleChange} 
+            disabled={loading} 
+          />
+        </div>
+
+        {/* Email Field - Optional as per API */}
+        <div>
+          <label htmlFor="email" className="block mb-1 font-semibold text-gray-700">Email Address (Optional)</label>
+          <input 
+            type="email" 
+            id="email" 
+            placeholder="john@example.com"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none" 
+            value={formData.email} 
+            onChange={handleChange} 
+            disabled={loading} 
+          />
+        </div>
+
+        {/* Message Field - Optional as per API */}
+        <div>
+          <label htmlFor="message" className="block mb-1 font-semibold text-gray-700">Your Message (Optional)</label>
+          <textarea 
+            id="message" 
+            rows="4" 
+            placeholder="How can we help you?"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none resize-none" 
+            value={formData.message} 
+            onChange={handleChange} 
+            disabled={loading}
+          ></textarea>
+        </div>
+
+        <button 
+          type="submit" 
+          className="w-full py-3 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 transition duration-300 disabled:bg-blue-300" 
+          disabled={loading}
+        >
+          {loading ? 'Sending Request...' : 'Send Message'}
+        </button>
+      </form>
+    </div>
+  );
 };
 
 export default ContactUsScreen;

@@ -3,7 +3,8 @@
 import React from 'react';
 
 const PrivacyPolicyScreen = () => {
-  const supportEmail = 'support@iqscaler.com'; // Using a variable for easy updates
+  const supportEmail = 'support@iqscaler.com';
+  const companyName = 'JDPC Global Private Limited';
 
   return (
     <div className="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8 text-gray-700 leading-relaxed">
@@ -15,7 +16,11 @@ const PrivacyPolicyScreen = () => {
       </p>
 
       <p className="mb-6">
-        At <b>IQScaler.com</b>, we value your privacy and are committed to protecting your personal data. This policy explains what information we collect, how we use it, and your rights concerning that information.
+        This privacy policy sets out how <b>IQScaler.com</b> (which is owned and operated by <b>{companyName}</b>) uses and protects any information that you give <b>IQScaler.com</b> when you use this website.
+      </p>
+
+      <p className="mb-6">
+        <b>IQScaler.com</b> is committed to ensuring that your privacy is protected. Should we ask you to provide certain information by which you can be identified when using this website, you can be assured that it will only be used in accordance with this privacy statement.
       </p>
 
       {/* --- Section 1: Information We Collect --- */}
@@ -44,23 +49,23 @@ const PrivacyPolicyScreen = () => {
           <tbody className="divide-y divide-gray-200">
             <tr className="hover:bg-gray-50">
               <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Account Data</td>
-              <td className="px-6 py-4">Name, Unique ID (for result retrieval), Email Address, Password (encrypted)</td>
-              <td className="px-6 py-4">To register your account, store your test results securely, and enable password recovery.</td>
+              <td className="px-6 py-4">Name, Unique ID, Email Address, Password (encrypted)</td>
+              <td className="px-6 py-4">To register your account, store results securely, and enable recovery.</td>
             </tr>
             <tr className="hover:bg-gray-50">
               <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Test Data</td>
               <td className="px-6 py-4">Your answers and final score</td>
-              <td className="px-6 py-4">To calculate your IQ result and, if purchased, generate your certificate.</td>
+              <td className="px-6 py-4">To calculate your IQ result and generate certificates.</td>
             </tr>
             <tr className="hover:bg-gray-50">
               <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Transaction Data</td>
-              <td className="px-6 py-4">Payment information (handled by a secure third-party processor—we do not store your credit card details)</td>
+              <td className="px-6 py-4">Payment info (handled by secure 3rd party)</td>
               <td className="px-6 py-4">To process payments for certificate purchases.</td>
             </tr>
             <tr className="hover:bg-gray-50">
               <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Technical Data</td>
               <td className="px-6 py-4">IP address, browser type, device information</td>
-              <td className="px-6 py-4">To maintain site security, diagnose technical issues, and prevent fraud.</td>
+              <td className="px-6 py-4">To maintain site security and prevent fraud.</td>
             </tr>
           </tbody>
         </table>
@@ -72,47 +77,37 @@ const PrivacyPolicyScreen = () => {
       </h2>
       <ul className="list-disc list-inside space-y-2 pl-4 mb-6">
         <li><b>To Provide Services:</b> Calculating and displaying your IQ test results.</li>
-        <li><b>To Communicate:</b> Sending you essential updates regarding your account, test results, or certificate status.</li>
-        <li><b>To Process Payments:</b> Facilitating the purchase of your official IQ certificate.</li>
-        <li><b>To Improve Our Services:</b> Analyzing aggregate, anonymous test data to refine test design and accuracy.</li>
+        <li><b>To Communicate:</b> Sending essential updates regarding your account or certificate status.</li>
+        <li><b>To Process Payments:</b> Facilitating secure transactions via our partners.</li>
+        <li><b>To Improve Our Services:</b> Analyzing anonymous data to refine test accuracy.</li>
       </ul>
 
       {/* --- Section 3: Data Storage and Security --- */}
       <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-100 pb-2 mt-8 mb-4">
         3. Data Storage and Security
       </h2>
-      <ul className="list-disc list-inside space-y-2 pl-4 mb-6">
-        <li><b>Secure Storage:</b> Your personal information and test results are stored on secure servers and protected using industry-standard security measures.</li>
-        <li><b>Payment Security:</b> All payment processing is outsourced to reputable and secure third-party payment processors. We do not store or have direct access to your full credit card details.</li>
-        <li><b>Data Retention:</b> We retain your account data and test results for as long as your account is active to allow you access to your historical results and certificates.</li>
-      </ul>
+      <p className="mb-4">
+        We are committed to ensuring that your information is secure. In order to prevent unauthorised access or disclosure, we have put in place suitable physical, electronic and managerial procedures to safeguard and secure the information we collect online.
+      </p>
 
       {/* --- Section 4: Data Sharing and Disclosure --- */}
       <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-100 pb-2 mt-8 mb-4">
         4. Data Sharing and Disclosure
       </h2>
       <p className="mb-4">
-        We do not sell, rent, or trade your personal information to third parties. We will only disclose your data under the following circumstances:
+        We will not sell, distribute, or lease your personal information to third parties unless we have your permission or are required by law to do so.
       </p>
-      <ul className="list-disc list-inside space-y-2 pl-4 mb-6">
-        <li><b>Payment Processors:</b> Sharing necessary transaction details with our third-party payment vendor to complete your certificate purchase.</li>
-        <li><b>Legal Compliance:</b> When required by law, such as in response to a court order or subpoena.</li>
-      </ul>
 
       {/* --- Section 5: International Users and Data Rights --- */}
       <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-100 pb-2 mt-8 mb-4">
-        5. International Users and Data Rights
+        5. Your Rights
       </h2>
       <p className="mb-4">
-        As a global platform, we are committed to respecting data protection laws worldwide. You have the right to:
+        You may request details of personal information which we hold about you. If you believe that any information we are holding on you is incorrect or incomplete, please contact us as soon as possible.
       </p>
-      <ul className="list-disc list-inside space-y-2 pl-4 mb-6">
-        <li><b>Access:</b> Request a copy of the personal data we hold about you.</li>
-        <li><b>Rectification:</b> Request correction of any incomplete or inaccurate data we hold about you.</li>
-        <li><b>Erasure (Right to be Forgotten):</b> Request the deletion of your personal data.</li>
-      </ul>
+      
       <p className="bg-blue-50 border-l-4 border-blue-500 p-4 italic">
-        To exercise any of these rights, please contact us at <a href={`mailto:${supportEmail}`} className="text-blue-600 hover:text-blue-800 font-semibold">{supportEmail}</a>.
+        To exercise your rights or for any privacy-related inquiries, please contact <b>{companyName}</b> at <a href={`mailto:${supportEmail}`} className="text-blue-600 hover:text-blue-800 font-semibold">{supportEmail}</a>.
       </p>
     </div>
   );
